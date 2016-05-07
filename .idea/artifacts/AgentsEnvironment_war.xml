@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="AgentsEnvironment:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="agent_center.war">
+      <element id="artifact" artifact-name="AgentsEnvironment:war exploded" />
+    </root>
+  </artifact>
+</component>
