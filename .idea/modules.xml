@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AgentsEnvironment.iml" filepath="$PROJECT_DIR$/AgentsEnvironment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AgentEnvironment.iml" filepath="$PROJECT_DIR$/AgentEnvironment.iml" />
     </modules>
   </component>
 </project>

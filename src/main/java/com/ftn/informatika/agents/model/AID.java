@@ -11,6 +11,10 @@ public class AID {
     public AID() {
     }
 
+    public AID(String string) {
+
+    }
+
     public AID(String name, AgentCenter host, AgentType type) {
         this.name = name;
         this.host = host;

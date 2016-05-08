@@ -10,6 +10,10 @@ public class AgentType {
     public AgentType() {
     }
 
+    public AgentType(String string) {
+
+    }
+
     public AgentType(String name, String module) {
         this.name = name;
         this.module = module;

@@ -22,7 +22,6 @@ public class ACLMessage {
     private String replayWith;
     private String inReplyTo;
     private Long ReplyBy;
-
     public ACLMessage() {
     }
 
@@ -146,7 +145,7 @@ public class ACLMessage {
         ReplyBy = replyBy;
     }
 
-    enum Performative {
+    public enum Performative {
         ACCEPT_PROPOSAL,
         AGREE,
         CANCEL,
@@ -171,4 +170,6 @@ public class ACLMessage {
         PROPAGATE,
         UNKNOWN,
     }
+
+
 }
