@@ -18,8 +18,8 @@
                 }
             };
 
-            $scope.showRestConsole = function () {
-                $location.path("/rest");
+            $scope.showHttpConsole = function () {
+                $location.path("/http");
             };
 
             $scope.showWebSocketConsole = function () {

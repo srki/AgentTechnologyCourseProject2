@@ -1,0 +1,22 @@
+.nav, .pagination, .carousel, .panel-title a {
+    cursor: pointer;
+}
+
+body {
+    background-color: #E9E9E9;
+}
+
+#HomeButtonContainer {
+    background-color: #FFFFFF;
+    border-radius: 25px;
+    width: 700px;
+    margin: 150px auto;
+    padding: 50px 25px 25px 25px;
+}
+
+.console-type-btn {
+    width: 300px;
+    height: 300px;
+    margin: 25px 10px;
+    font-size: 300%;
+}

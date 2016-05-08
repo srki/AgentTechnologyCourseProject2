@@ -5,8 +5,8 @@
 (function (angular) {
     "use strict";
 
-    angular.module('app.RestCtrl', [])
-        .controller('RestCtrl', function ($scope) {
+    angular.module('app.HttpCtrl', [])
+        .controller('HttpCtrl', function ($scope) {
             var init = function () {
 
             };

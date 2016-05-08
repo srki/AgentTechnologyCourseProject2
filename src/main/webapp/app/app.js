@@ -11,9 +11,9 @@
                     templateUrl: 'partials/home.html',
                     controller: 'HomeCtrl'
                 })
-                .when('/rest', {
+                .when('/http', {
                     templateUrl: 'partials/console.html',
-                    controller: 'RestCtrl'
+                    controller: 'HttpCtrl'
                 })
                 .when('/websocket', {
                     templateUrl: 'partials/console.html',

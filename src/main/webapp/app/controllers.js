@@ -7,7 +7,7 @@
 
     angular.module('app.controllers', [
         'app.HomeCtrl',
-        'app.RestCtrl',
+        'app.HttpCtrl',
         'app.WebSocketCtrl'
     ]);
 }(angular));

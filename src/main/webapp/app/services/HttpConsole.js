@@ -5,8 +5,8 @@
 (function (angular) {
     "use strict";
 
-    angular.module('app.RestConsole', [])
-        .factory('RestConsole', function ($http) {
+    angular.module('app.HttpConsole', [])
+        .factory('HttpConsole', function ($http) {
             return {};
         });
 }(angular));

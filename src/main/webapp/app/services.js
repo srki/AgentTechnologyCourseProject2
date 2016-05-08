@@ -6,7 +6,7 @@
     "use strict";
 
     angular.module('app.services', [
-        'app.RestConsole',
+        'app.HttpConsole',
         'app.WebSocketConsole'
     ]);
 }(angular));
