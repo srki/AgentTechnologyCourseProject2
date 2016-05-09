@@ -11,7 +11,7 @@
                     templateUrl: 'partials/home.html',
                     controller: 'HomeCtrl'
                 })
-                .when('/console', {
+                .when('/agent_console', {
                     templateUrl: 'partials/console.html',
                     controller: 'ConsoleCtrl'
                 })

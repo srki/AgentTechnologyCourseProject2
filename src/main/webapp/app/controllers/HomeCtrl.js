@@ -20,12 +20,12 @@
 
             $scope.showHttpConsole = function () {
                 $rootScope.type = 'HTTP';
-                $location.path("/console");
+                $location.path("/agent_console");
             };
 
             $scope.showWebSocketConsole = function () {
                 $rootScope.type = 'WEB_SOCKET';
-                $location.path("/console")
+                $location.path("/agent_console")
             };
 
             init();

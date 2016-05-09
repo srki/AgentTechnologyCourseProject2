@@ -9,8 +9,9 @@
         .controller('ConsoleCtrl', function ($rootScope, $location, $scope, HttpConsole, WebSocketConsole) {
             var consoleService = null,
                 init = function () {
-                    if (!$rootScope) {
+                    if (!$rootScope.type) {
                         $location.path('/');
+                        return;
                     } else {
                         consoleService = $rootScope.type === 'HTTP' ? HttpConsole : WebSocketConsole;
                     }
