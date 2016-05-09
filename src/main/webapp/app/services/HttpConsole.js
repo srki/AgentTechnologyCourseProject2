@@ -45,7 +45,8 @@
                         url: 'api/messages'
                     }).then(success, error);
                 },
-                getLogs: function (last, success, error) {
+                setLogListeners: function (last, success, error) {
+                    // TODO: implement stream
                     $http({
                         method: 'GET',
                         url: 'api/logs',
