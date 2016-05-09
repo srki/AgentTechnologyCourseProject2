@@ -15,7 +15,6 @@ import javax.websocket.OnMessage;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @author - Srđan Milaković
@@ -59,7 +58,6 @@ public class ConsoleWebSocket {
                     break;
                 default:
                     System.err.println("Unknown performative: " + websocketPacket.getType());
-
             }
 
         } catch (IOException e) {
@@ -73,23 +71,23 @@ public class ConsoleWebSocket {
         System.err.println("onError: " + error.getMessage());
     }
 
-    private void handleGetClasses(String data, Session session) {
+    private void handleGetClasses(String data, Session session) throws IOException {
+        createAndSendPackage(session, WebSocketPacket.Type.GET_CLASSES, agentsBean.getAgentTypes());
     }
 
-    private void handleGetRunning(String data, Session session) {
+    private void handleGetRunning(String data, Session session) throws IOException {
+        createAndSendPackage(session, WebSocketPacket.Type.GET_RUNNING, agentsBean.getRunningAgents());
     }
 
     private void handleRunAgent(String data, Session session) throws IOException {
         RunAgentRequest request = new Gson().fromJson(data, RunAgentRequest.class);
         AID aid = agentsBean.runAgent(request.getAgentType(), request.getName());
-        WebSocketPacket packet = new WebSocketPacket(WebSocketPacket.Type.RUN_AGENT, aid, true);
-        session.getBasicRemote().sendText(new Gson().toJson(packet));
+        createAndSendPackage(session, WebSocketPacket.Type.RUN_AGENT, aid);
     }
 
     private void handleStopAgent(String data, Session session) throws IOException {
         AID aid = agentsBean.stopAgent(new Gson().fromJson(data, AID.class));
-        WebSocketPacket packet = new WebSocketPacket(WebSocketPacket.Type.STOP_AGENT, aid, true);
-        session.getBasicRemote().sendText(new Gson().toJson(packet));
+        createAndSendPackage(session, WebSocketPacket.Type.STOP_AGENT, aid);
     }
 
     private void handleSendMessage(String data, Session session) {
@@ -97,8 +95,16 @@ public class ConsoleWebSocket {
     }
 
     private void handleGetPerformatives(String data, Session session) throws IOException {
-        List<String> performatives = messagesBean.getPerformatives();
-        WebSocketPacket packet = new WebSocketPacket(WebSocketPacket.Type.GET_PERFORMATIVES, performatives, true);
+        createAndSendPackage(session, WebSocketPacket.Type.GET_PERFORMATIVES, messagesBean.getPerformatives());
+    }
+
+    private void createAndSendPackage(Session session, WebSocketPacket.Type type, Object object) throws IOException {
+        createAndSendPackage(session, type, object, true);
+    }
+
+    private void createAndSendPackage(Session session, WebSocketPacket.Type type, Object object, boolean success)
+            throws IOException {
+        WebSocketPacket packet = new WebSocketPacket(type, object, success);
         session.getBasicRemote().sendText(new Gson().toJson(packet));
     }
 
