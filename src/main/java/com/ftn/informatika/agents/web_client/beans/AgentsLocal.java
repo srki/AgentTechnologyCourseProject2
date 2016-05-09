@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Local
 public interface AgentsLocal {
-    List<AgentType> getAgentTypes();
+    List<AgentType> getClasses();
 
     List<AID> getRunningAgents();
 

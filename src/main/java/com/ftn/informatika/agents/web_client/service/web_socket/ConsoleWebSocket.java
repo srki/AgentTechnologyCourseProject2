@@ -72,7 +72,7 @@ public class ConsoleWebSocket {
     }
 
     private void handleGetClasses(String data, Session session) throws IOException {
-        createAndSendPackage(session, WebSocketPacket.Type.GET_CLASSES, agentsBean.getAgentTypes());
+        createAndSendPackage(session, WebSocketPacket.Type.GET_CLASSES, agentsBean.getClasses());
     }
 
     private void handleGetRunning(String data, Session session) throws IOException {

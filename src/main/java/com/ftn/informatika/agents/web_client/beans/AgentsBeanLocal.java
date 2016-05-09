@@ -12,7 +12,7 @@ import java.util.List;
 @Singleton
 public class AgentsBeanLocal implements AgentsLocal {
     @Override
-    public List<AgentType> getAgentTypes() {
+    public List<AgentType> getClasses() {
         return null;
     }
 
