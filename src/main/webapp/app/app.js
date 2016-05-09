@@ -11,13 +11,9 @@
                     templateUrl: 'partials/home.html',
                     controller: 'HomeCtrl'
                 })
-                .when('/http', {
+                .when('/console', {
                     templateUrl: 'partials/console.html',
-                    controller: 'HttpCtrl'
-                })
-                .when('/websocket', {
-                    templateUrl: 'partials/console.html',
-                    controller: 'WebSocketCtrl'
+                    controller: 'ConsoleCtrl'
                 })
                 .otherwise('/');
             $locationProvider.html5Mode(true);

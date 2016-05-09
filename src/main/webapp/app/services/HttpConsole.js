@@ -8,51 +8,51 @@
     angular.module('app.HttpConsole', [])
         .factory('HttpConsole', function ($http) {
             return {
-                getClasses: function () {
-                    return $http({
+                getClasses: function (success, error) {
+                    $http({
                         method: 'GET',
                         url: 'api/agents/classes'
-                    });
+                    }).then(success, error);
                 },
-                getRunning: function () {
-                    return $http({
+                getRunning: function (success, error) {
+                    $http({
                         method: 'GET',
                         url: 'api/agents/running'
-                    });
+                    }).then(success, error);
                 },
-                runAgent: function (type, name) {
-                    return $http({
+                runAgent: function (type, name, success, error) {
+                    $http({
                         method: 'PUT',
                         url: 'api/agents/running/' + type + '/' + name
-                    });
+                    }).then(success, error);
                 },
-                stopAgent: function (aid) {
-                    return $http({
+                stopAgent: function (aid, success, error) {
+                    $http({
                         method: 'DELETE',
                         url: 'api/agents/running/' + aid
-                    });
+                    }).then(success, error);
                 },
-                sendMessage: function (message) {
-                    return $http({
+                sendMessage: function (message, success, error) {
+                    $http({
                         method: 'POST',
                         url: 'api/messages',
                         data: message
-                    })
+                    }).then(success, error);
                 },
-                getPerformatives: function () {
-                    return $http({
+                getPerformatives: function (success, error) {
+                    $http({
                         method: 'GET',
                         url: 'api/messages'
-                    })
+                    }).then(success, error);
                 },
-                getLogs: function (last) {
-                    return $http({
+                getLogs: function (last, success, error) {
+                    $http({
                         method: 'GET',
                         url: 'api/logs',
                         params: {
                             last: last
                         }
-                    })
+                    }).then(success, error);
                 }
             };
         });
