@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.service.endpoints;
+package com.ftn.informatika.agents.web_client.service.http.endpoint_interface;
 
 import com.ftn.informatika.agents.model.AID;
 import com.ftn.informatika.agents.model.AgentType;

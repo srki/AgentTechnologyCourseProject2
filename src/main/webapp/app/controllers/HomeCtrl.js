@@ -10,11 +10,11 @@
             var init = function () {
                 try {
                     if (WebSocket) {
-                        console.log("WebSockets supported.")
+                        console.log("WebSockets supported.");
                     }
                 } catch (e) {
-                    console.log("WebSockets not supported.")
-                    $scope.showRestConsole();
+                    console.log("WebSockets not supported.");
+                    $scope.showHttpConsole();
                 }
             };
 

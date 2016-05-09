@@ -1,30 +1,28 @@
-package com.ftn.informatika.agents.service;
+package com.ftn.informatika.agents.web_client.beans;
 
 import com.ftn.informatika.agents.model.AID;
 import com.ftn.informatika.agents.model.AgentType;
-import com.ftn.informatika.agents.service.endpoints.AgentsEndpointREST;
 
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
 import java.util.List;
 
 /**
  * @author - Srđan Milaković
  */
-@Stateless
-public class AgentsREST implements AgentsEndpointREST {
-
+@Singleton
+public class AgentsBeanLocal implements AgentsLocal {
     @Override
-    public List<AgentType> getClasses() {
+    public List<AgentType> getAgentTypes() {
         return null;
     }
 
     @Override
-    public List<AID> getRunning() {
+    public List<AID> getRunningAgents() {
         return null;
     }
 
     @Override
-    public AID runAgent(AgentType type, String name) {
+    public AID runAgent(AgentType agentType, String name) {
         return null;
     }
 

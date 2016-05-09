@@ -1,7 +1,6 @@
-package com.ftn.informatika.agents.service;
+package com.ftn.informatika.agents.web_client.beans;
 
 import com.ftn.informatika.agents.model.ACLMessage;
-import com.ftn.informatika.agents.service.endpoints.MessagesEndpointREST;
 
 import javax.ejb.Stateless;
 import java.util.ArrayList;
@@ -11,10 +10,10 @@ import java.util.List;
  * @author - Srđan Milaković
  */
 @Stateless
-public class MessagesREST implements MessagesEndpointREST {
+public class MessagesBeanLocal implements MessagesLocal {
     @Override
-    public Object sendMessage(ACLMessage message) {
-        return null;
+    public void sendMessage(ACLMessage message) {
+
     }
 
     @Override
