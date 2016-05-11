@@ -22,11 +22,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="AgentsEnvironment" />
+        <module name="AgentEnvironment" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="AgentsEnvironment" target="1.8" />
+      <module name="AgentEnvironment" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

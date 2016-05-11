@@ -108,5 +108,4 @@ public class ConsoleWebSocket {
         session.getBasicRemote().sendText(new Gson().toJson(packet));
     }
 
-
 }
