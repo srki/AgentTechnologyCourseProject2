@@ -136,3 +136,15 @@
 .clickable {
     cursor: pointer;
 }
+
+.green {
+    color: #6CAA4F;
+}
+
+.yellow {
+    color: #E8BF6A;
+}
+
+.purple {
+    color: #9876AA;
+}

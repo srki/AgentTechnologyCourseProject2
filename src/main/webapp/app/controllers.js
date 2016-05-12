@@ -8,6 +8,8 @@
 
     angular.module('app.controllers', [
         'app.HomeCtrl',
-        'app.ConsoleCtrl'
+        'app.ConsoleCtrl',
+        'app.NewAgentModalCtrl',
+        'app.NewMessageModalCtrl'
     ]);
 }(angular));

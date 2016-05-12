@@ -7,7 +7,9 @@
             </div>
 
             <ul class="nav navbar-nav navbar-left">
-                <li ng-click="newMessage()"><a href="#">New message</a></li>
+                <li ng-click="newMessage()"><a href="#">
+                    <span class="glyphicon glyphicon-envelope yellow"></span>&nbsp;New message</a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -15,19 +17,62 @@
     <uib-alert type="danger" ng-if="alertMessage">{{alertMessage}}</uib-alert>
     <div class="agent-list container">
         <div class="row">
-            <div class="col-md-4">dsa</div>
-            <div class="col-md-4">ds</div>
-            <div class="col-md-4">dsa</div>
-        </div>
-    </div>
-    <div class="log container">
-        <div class="header">Log</div>
-        <div class="content">
-            <div ng-repeat="log in logs">
-                <span class="time">{{log.date | date:'mediumTime'}}</span>
-                &nbsp;
-                <span>{{log.content}}</span>
+            <div class="col-md-6">
+                <div class="header">Agent Types</div>
+                <div class="content">
+                    <table class="table">
+                        <tr>
+                            <th class="purple">Name</th>
+                            <th class="purple">Module</th>
+                            <th class="purple" style="width: 45px">Run</th>
+                        </tr>
+                        <tr ng-repeat="type in agentTypes">
+                            <td class="green">{{type.name}}</td>
+                            <td>{{type.module}}</td>
+                            <td class="clickable ta-mid" ng-click="startAgent(type)">
+                                <span class="glyphicon glyphicon-flash yellow"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="header">Running agents</div>
+                <div class="content">
+                    <table class="table">
+                        <tr>
+                            <th class="purple">Name</th>
+                            <th class="purple">Host</th>
+                            <th class="purple">Type</th>
+                            <th style="width: 45px"></th>
+                        </tr>
+                        <tr ng-repeat="agent in runningAgents">
+                            <td class="green">{{agent.name}}</td>
+                            <td>{{agent.type.name}}</td>
+                            <td>{{agent.host.alias}}</td>
+                            <td class="clickable ta-mid" ng-click="newMessage(type)">
+                                <span class="glyphicon glyphicon-envelope yellow"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="log container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="header">Log</div>
+                <div class="content">
+                    <div ng-repeat="log in logs">
+                        <span class="green">{{log.date | date:'mediumTime'}}</span>
+                        &nbsp;
+                        <span>{{log.content}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

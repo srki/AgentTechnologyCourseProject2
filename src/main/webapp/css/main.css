@@ -22,49 +22,6 @@ body {
     }
 }
 
-#Console {
-    display: flex;
-    flex-flow: column;
-    height: 100%;
-}
-
-#Console .agent-list {
-    background-color: #313335;
-    flex: 1 1 auto;
-    margin-bottom: 10px;
-    display: flex;
-}
-
-#Console .log {
-    background-color: #2B2B2B;
-    flex: 0 1 200px;
-    margin-bottom: 20px;
-    padding: 0;
-}
-
-#Console .header {
-    background-color: #424D5F;
-    color: #BBBBBB;
-    font-size: 150%;
-    padding: 5px 10px;
-}
-
-#Console .content {
-    color: #6897BB;
-    padding: 10px;
-    overflow: scroll;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-#Console .log .content {
-    height: 200px;
-}
-
-#Console .content .time {
-    color: #6CAA4F;
-}
-
 #HomeButtonContainer {
     background-color: #FFFFFF;
     border-radius: 25px;
@@ -78,3 +35,60 @@ body {
     margin: 25px 10px;
     font-size: 300%;
 }
+
+#Console {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+#Console .container {
+    padding: 0;
+}
+
+#Console .row {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    margin: 0;
+}
+
+#Console .row > * {
+    display: flex;
+    flex-flow: column;
+    flex-grow: 1;
+}
+
+#Console .agent-list {
+    display: flex;
+    flex-flow: column;
+    flex: 1 1 auto;
+    margin-bottom: 10px;
+}
+
+#Console .log {
+    display: flex;
+    flex-flow: column;
+    flex: 0 0 200px;
+    margin-bottom: 20px;
+}
+
+#Console .header {
+    flex-shrink: 0;
+    background-color: #424D5F;
+    color: #BBBBBB;
+    font-size: 150%;
+    padding: 5px 10px;
+}
+
+#Console .content {
+    flex-grow: 1;
+    background-color: #2B2B2B;
+    color: #6897BB;
+    padding: 10px;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+

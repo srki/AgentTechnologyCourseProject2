@@ -4,6 +4,7 @@ import com.ftn.informatika.agents.model.AID;
 import com.ftn.informatika.agents.model.AgentType;
 
 import javax.ejb.Singleton;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,12 +14,12 @@ import java.util.List;
 public class AgentsBeanLocal implements AgentsLocal {
     @Override
     public List<AgentType> getClasses() {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<AID> getRunningAgents() {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override

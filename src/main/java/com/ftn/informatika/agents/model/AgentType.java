@@ -11,7 +11,9 @@ public class AgentType {
     }
 
     public AgentType(String string) {
-
+        String[] split = string.split(";");
+        module = split[0];
+        name = split[1];
     }
 
     public AgentType(String name, String module) {

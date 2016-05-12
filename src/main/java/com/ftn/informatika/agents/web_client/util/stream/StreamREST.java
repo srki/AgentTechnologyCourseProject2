@@ -20,7 +20,8 @@ public class StreamREST implements StreamEndpointREST {
 
     @Override
     public Object addMessage() {
-        streamBean.sendMessage(new StreamMessage("STREAM_MESSAGES", "sad"));
+        for (int i = 0; i < 5; i++)
+            streamBean.sendMessage(new StreamMessage("STREAM_MESSAGES", "This message is created for testing."));
         return "ok";
     }
 }
