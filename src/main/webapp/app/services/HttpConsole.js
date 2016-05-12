@@ -1,12 +1,13 @@
 /**
  * Created by Srđan on 9.5.2016..
+ * Angular service for HTTP console requests
  */
 /*global angular*/
 (function (angular) {
     "use strict";
 
     angular.module('app.HttpConsole', [])
-        .factory('HttpConsole', function ($http) {
+        .factory('HttpConsole', function ($http, $interval) {
             return {
                 getClasses: function (success, error) {
                     $http({
@@ -45,15 +46,22 @@
                         url: 'api/messages'
                     }).then(success, error);
                 },
-                setLogListeners: function (last, success, error) {
-                    // TODO: implement stream
-                    $http({
-                        method: 'GET',
-                        url: 'api/logs',
-                        params: {
-                            last: last
-                        }
-                    }).then(success, error);
+                setStreamListeners: function (success, error) {
+                    var last = new Date().getTime(),
+                        intervalId = $interval(function () {
+                            $http({
+                                method: 'GET',
+                                url: 'api/stream',
+                                params: {
+                                    last: last
+                                }
+                            }).then(success, error);
+                            last = new Date().getTime();
+                        }, 1000);
+
+                    return function () {
+                        $interval.cancel(intervalId);
+                    };
                 }
             };
         });

@@ -1,5 +1,6 @@
 /**
  * Created by Srđan on 9.5.2016..
+ * Angular controller for /agent_console route.
  */
 /*global angular*/
 (function (angular) {
@@ -16,6 +17,7 @@
                         consoleService = $rootScope.type === 'HTTP' ? HttpConsole : WebSocketConsole;
                     }
 
+                    // Get all performatives
                     consoleService.getPerformatives(
                         function (response) {
                             console.log(response);
@@ -24,6 +26,11 @@
 
                         }
                     );
+
+                    // Init message stream and clean it on destroy
+                    $scope.$on("$destroy", consoleService.setStreamListeners(function (response) {
+                        console.log(response)
+                    }));
 
                 };
 

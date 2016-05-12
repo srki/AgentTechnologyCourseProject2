@@ -1,5 +1,6 @@
 /**
  * Created by Srđan on 9.5.2016..
+ * Angular service for WebSocket console requests
  */
 /*global angular*/
 (function (angular) {
@@ -77,9 +78,9 @@
                 getPerformatives: function (success, error) {
                     addListenersAndSend('GET_PERFORMATIVES', success, error);
                 },
-                setLogListeners: function (last, success, error) {
-                    addSuccessListener('LOG_LISTENER', success);
-                    addErrorListener('LOG_LISTENER', error);
+                setStreamListeners: function (success, error) {
+                    addSuccessListener('STREAM_LISTENER', success);
+                    addErrorListener('STREAM_LISTENER', error);
                 }
             };
         });

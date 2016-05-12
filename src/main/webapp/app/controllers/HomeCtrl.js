@@ -1,19 +1,20 @@
 /**
  * Created by Srđan on 9.5.2016..
+ * Angular controller for / route.
  */
 /*global angular*/
 (function (angular) {
     "use strict";
 
     angular.module('app.HomeCtrl', [])
-        .controller('HomeCtrl', function ($rootScope, $scope, $location) {
+        .controller('HomeCtrl', function ($rootScope, $scope, $location, $log) {
             var init = function () {
                 try {
                     if (WebSocket) {
-                        console.log("WebSockets supported.");
+                        $log.info("WebSockets supported.");
                     }
                 } catch (e) {
-                    console.log("WebSockets not supported.");
+                    $log.warn("WebSockets not supported.");
                     $scope.showHttpConsole();
                 }
             };
