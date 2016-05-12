@@ -14,4 +14,7 @@ public interface StreamEndpointREST {
     @GET
     List<StreamMessage> getMessages(@QueryParam("last") Long last);
 
+    @GET
+    @Path("/new")
+    Object addMessage();
 }

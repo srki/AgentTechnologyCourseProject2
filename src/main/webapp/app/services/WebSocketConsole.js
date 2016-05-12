@@ -7,8 +7,9 @@
     "use strict";
 
     angular.module('app.WebSocketConsole', [])
-        .factory('WebSocketConsole', function ($location) {
+        .factory('WebSocketConsole', function ($location, $log) {
             var socket = null,
+                sendQueue = [],
                 successListeners = {},
                 errorListeners = {},
                 addSuccessListener = function (type, listener) {
@@ -18,10 +19,16 @@
                     errorListeners[type] = listener;
                 },
                 send = function (type, data) {
-                    socket.send(JSON.stringify({
+                    var json = JSON.stringify({
                         type: type,
                         data: data
-                    }));
+                    });
+
+                    if (socket.readyState == socket.CONNECTING) {
+                        sendQueue.push(json)
+                    } else {
+                        socket.send(json);
+                    }
                 },
                 addListenersAndSend = function (type, success, error, data) {
                     addSuccessListener(type, success);
@@ -54,6 +61,13 @@
                         }
                     }
                 };
+
+                socket.onopen = function () {
+                    $log.info("WebSocket onOpen");
+                    while (sendQueue.length > 0) {
+                        socket.send(sendQueue.pop());
+                    }
+                }
             })(socket);
 
             return {

@@ -20,4 +20,9 @@ public class StreamREST implements StreamEndpointREST {
         return streamBean.getMessages(last);
     }
 
+    @Override
+    public Object addMessage() {
+        streamBean.sendMessage(new StreamMessage("dsa", "sad"));
+        return "ok";
+    }
 }
