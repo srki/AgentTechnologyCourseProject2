@@ -16,6 +16,35 @@ import java.util.List;
 @Singleton
 public class StreamBeanLocal implements StreamLocal {
 
+    private List<MessageTuple> messages = new ArrayList<>();
+    @EJB
+    private SessionsDbLocal sessionsDbBean;
+
+    @Lock(LockType.WRITE)
+    @Override
+    public void sendMessage(StreamMessage message) {
+        messages.add(new MessageTuple(message));
+        sessionsDbBean.sendToAll(new WebSocketPacket(
+                WebSocketPacket.Type.STREAM_MESSAGES, Collections.singletonList(message), true));
+    }
+
+    @Lock(LockType.READ)
+    @Override
+    public List<StreamMessage> getMessages(Long time) {
+        List<StreamMessage> list = new ArrayList<>();
+
+        for (int i = messages.size() - 1; i >= 0; i--) {
+            MessageTuple tuple = messages.get(i);
+            if (tuple.getTime() < time) {
+                break;
+            }
+            list.add(tuple.getMessage());
+        }
+
+        Collections.reverse(list);
+        return list;
+    }
+
     private class MessageTuple {
         private StreamMessage message;
         private long time;
@@ -47,34 +76,5 @@ public class StreamBeanLocal implements StreamLocal {
         public void setTime(long time) {
             this.time = time;
         }
-    }
-
-    private List<MessageTuple> messages = new ArrayList<>();
-
-    @EJB
-    private SessionsDbLocal sessionsDbBean;
-
-    @Lock(LockType.WRITE)
-    @Override
-    public void sendMessage(StreamMessage message) {
-        messages.add(new MessageTuple(message));
-        sessionsDbBean.sendToAll(new WebSocketPacket(WebSocketPacket.Type.STREAM_MESSAGE, message, true));
-    }
-
-    @Lock(LockType.READ)
-    @Override
-    public List<StreamMessage> getMessages(Long time) {
-        List<StreamMessage> list = new ArrayList<>();
-
-        for (int i = messages.size() - 1; i >= 0; i--) {
-            MessageTuple tuple = messages.get(i);
-            if (tuple.getTime() < time) {
-                break;
-            }
-            list.add(tuple.getMessage());
-        }
-
-        Collections.reverse(list);
-        return list;
     }
 }

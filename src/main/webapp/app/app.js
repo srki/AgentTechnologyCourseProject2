@@ -1,5 +1,6 @@
 /**
  * Created by Srđan on 9.5.2016..
+ * Angular main app module
  */
 /*global angular*/
 (function (angular) {

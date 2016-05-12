@@ -7,7 +7,7 @@
     "use strict";
 
     angular.module('app.WebSocketConsole', [])
-        .factory('WebSocketConsole', function ($location, $log) {
+        .factory('WebSocketConsole', function ($location, $log, $rootScope) {
             var socket = null,
                 sendQueue = [],
                 successListeners = {},
@@ -51,13 +51,15 @@
                         success = successListeners[object.type];
                         if (success) {
                             object.status = 200;
-                            success(object);
+                            success(object, true);
+                            $rootScope.$digest();
                         }
                     } else {
                         error = errorListeners[object.type];
                         object.status = 400;
                         if (error) {
-                            error(object);
+                            error(object, true);
+                            $rootScope.$digest()
                         }
                     }
                 };
@@ -93,8 +95,8 @@
                     addListenersAndSend('GET_PERFORMATIVES', success, error);
                 },
                 setStreamListeners: function (success, error) {
-                    addSuccessListener('STREAM_MESSAGE', success);
-                    addErrorListener('STREAM_MESSAGE', error);
+                    addSuccessListener('STREAM_MESSAGES', success);
+                    addErrorListener('STREAM_MESSAGES', error);
                 }
             };
         });

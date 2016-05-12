@@ -17,22 +17,42 @@
                         consoleService = $rootScope.type === 'HTTP' ? HttpConsole : WebSocketConsole;
                     }
 
+                    $scope.alertMessage = null;
+                    $scope.logs = [];
+                    $scope.performatives = [];
+                    $scope.agentTypes = [];
+                    $scope.agnets = [];
+
                     // Get all performatives
                     consoleService.getPerformatives(
                         function (response) {
-                            console.log(response.data);
+                            $scope.performatives = response.data;
                         },
                         function (response) {
-
+                            $scope.alertMessage = "Error: " + response.data.message;
                         }
                     );
 
                     // Init message stream and clean it on destroy
                     $scope.$on("$destroy", consoleService.setStreamListeners(function (response) {
-                        console.log(response.data)
+                        for (var msg in response.data) {
+                            if (!response.data.hasOwnProperty(msg)) {
+                                continue;
+                            }
+
+                            switch (response.data[msg].type) {
+                                case 'STREAM_MESSAGES':
+                                    $scope.logs.push(response.data[msg]);
+                                    break;
+                            }
+                        }
                     }));
 
                 };
+
+            $scope.newMessage = function () {
+
+            };
 
             init();
         });

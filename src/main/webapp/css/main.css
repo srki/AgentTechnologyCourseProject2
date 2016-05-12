@@ -2,8 +2,12 @@
     cursor: pointer;
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
-    background-color: #E9E9E9;
+    background-color: #3C3F41;
 }
 
 @media (min-width: 768px) {
@@ -16,6 +20,49 @@ body {
     #HomeButtonContainer {
         margin: 50px auto 0 auto;
     }
+}
+
+#Console {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+#Console .agent-list {
+    background-color: #313335;
+    flex: 1 1 auto;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+#Console .log {
+    background-color: #2B2B2B;
+    flex: 0 1 200px;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+#Console .header {
+    background-color: #424D5F;
+    color: #BBBBBB;
+    font-size: 150%;
+    padding: 5px 10px;
+}
+
+#Console .content {
+    color: #6897BB;
+    padding: 10px;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#Console .log .content {
+    height: 200px;
+}
+
+#Console .content .time {
+    color: #6CAA4F;
 }
 
 #HomeButtonContainer {

@@ -2,8 +2,6 @@ package com.ftn.informatika.agents.web_client.util.stream;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ws.rs.GET;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +20,7 @@ public class StreamREST implements StreamEndpointREST {
 
     @Override
     public Object addMessage() {
-        streamBean.sendMessage(new StreamMessage("dsa", "sad"));
+        streamBean.sendMessage(new StreamMessage("STREAM_MESSAGES", "sad"));
         return "ok";
     }
 }

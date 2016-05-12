@@ -5,6 +5,29 @@
                 <img src="/img/logo.png" class="tm-5 rm-10 pull-left" height="40" width="40"/>
                 <a class="navbar-brand" href="/">Agent Center Console</a>
             </div>
+
+            <ul class="nav navbar-nav navbar-left">
+                <li ng-click="newMessage()"><a href="#">New message</a></li>
+            </ul>
         </div>
     </nav>
+
+    <uib-alert type="danger" ng-if="alertMessage">{{alertMessage}}</uib-alert>
+    <div class="agent-list container">
+        <div class="row">
+            <div class="col-md-4">dsa</div>
+            <div class="col-md-4">ds</div>
+            <div class="col-md-4">dsa</div>
+        </div>
+    </div>
+    <div class="log container">
+        <div class="header">Log</div>
+        <div class="content">
+            <div ng-repeat="log in logs">
+                <span class="time">{{log.date | date:'mediumTime'}}</span>
+                &nbsp;
+                <span>{{log.content}}</span>
+            </div>
+        </div>
+    </div>
 </div>

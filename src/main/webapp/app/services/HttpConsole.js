@@ -57,7 +57,7 @@
                                 }
                             }).then(success, error);
                             last = new Date().getTime();
-                        }, 1000);
+                        }, 5000);
 
                     return function () {
                         $interval.cancel(intervalId);
