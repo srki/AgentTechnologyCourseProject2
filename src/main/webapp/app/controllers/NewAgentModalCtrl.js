@@ -8,14 +8,6 @@
 
     angular.module('app.NewAgentModalCtrl', [])
         .controller('NewAgentModalCtrl', function ($scope, $uibModalInstance) {
-            var type = {},
-                init = function () {
-                    type = {
-                        name: $scope.type.name,
-                        module: $scope.type.module
-                    }
-                };
-
             $scope.runAgent = function () {
                 if (!$scope.name) {
                     $scope.alertMessage = "Name can not be empty."
@@ -40,7 +32,5 @@
             $scope.close = function () {
                 $uibModalInstance.close();
             };
-
-            init();
         });
 }(angular));

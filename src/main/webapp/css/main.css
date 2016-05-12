@@ -10,6 +10,10 @@ body {
     background-color: #3C3F41;
 }
 
+textarea {
+    resize: vertical;
+}
+
 @media (min-width: 768px) {
     #HomeButtonContainer {
         margin: 150px auto 0 auto;

@@ -9,6 +9,7 @@
     angular.module('app.ConsoleCtrl', [])
         .controller('ConsoleCtrl', function ($rootScope, $location, $scope, $uibModal, HttpConsole, WebSocketConsole) {
             var consoleService = null,
+                performatives = [],
                 init = function () {
                     var errorCallback = function (response) {
                         $scope.alertMessage = "Error: " + response.data.message;
@@ -23,7 +24,6 @@
 
                     $scope.alertMessage = null;
                     $scope.logs = [];
-                    $scope.performatives = [];
                     $scope.agentTypes = [];
                     $scope.runningAgents = [];
 
@@ -44,17 +44,16 @@
 
                     // Get all performatives
                     consoleService.getPerformatives(function (response) {
-                        $scope.performatives = response.data;
+                        performatives = response.data;
                     }, errorCallback);
-
 
                     // Init agent types
                     consoleService.getClasses(function (response) {
-                        //$scope.agentTypes = response.data;
+                        Array.prototype.push.apply($scope.agentTypes, response.data);
                     }, errorCallback);
 
                     consoleService.getRunning(function (response) {
-                        //$scope.runningAgents = response.data;
+                        Array.prototype.push.apply($scope.runningAgents, response.data);
                     }, errorCallback);
 
                     for (var i = 0; i < 10; i++) {
@@ -62,6 +61,7 @@
                             module: 'rs.ac.uns.ftn.informatika.agents',
                             name: 'ping' + (i + 1)
                         });
+
 
                         $scope.runningAgents.push({
                             name: 'Agent 00' + i,
@@ -73,9 +73,8 @@
                                 module: 'rs.ac.uns.ftn.informatika.agents',
                                 name: 'ping' + (i + 1)
                             }
-                        })
+                        });
                     }
-
                 };
 
             $scope.runAgent = function (type) {
@@ -94,7 +93,11 @@
             $scope.newMessage = function (aid) {
                 var scope = $scope.$new(true);
                 scope.consoleService = consoleService;
-                scope.receivers = [aid];
+                scope.performatives = performatives;
+                scope.runningAgents = $scope.runningAgents;
+                scope.message = {
+                    receivers: aid ? [aid] : []
+                };
 
                 $uibModal.open({
                     animation: true,

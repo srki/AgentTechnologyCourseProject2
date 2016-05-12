@@ -1,9 +1,9 @@
 package com.ftn.informatika.agents.web_client.service.web_socket;
 
-import com.ftn.informatika.agents.model.ACLMessage;
-import com.ftn.informatika.agents.model.AID;
 import com.ftn.informatika.agents.environment.AgentsLocal;
 import com.ftn.informatika.agents.environment.MessagesLocal;
+import com.ftn.informatika.agents.model.ACLMessage;
+import com.ftn.informatika.agents.model.AID;
 import com.ftn.informatika.agents.web_client.service.web_socket.beans.SessionsDbLocal;
 import com.ftn.informatika.agents.web_client.service.web_socket.model.RunAgentRequest;
 import com.ftn.informatika.agents.web_client.service.web_socket.model.WebSocketPacket;
@@ -101,8 +101,9 @@ public class ConsoleWebSocket {
         createAndSendPackage(session, WebSocketPacket.Type.STOP_AGENT, aid);
     }
 
-    private void handleSendMessage(String data, Session session) {
+    private void handleSendMessage(String data, Session session) throws IOException {
         messagesBean.sendMessage(new Gson().fromJson(data, ACLMessage.class));
+        createAndSendPackage(session, WebSocketPacket.Type.SEND_MESSAGE, "");
     }
 
     private void handleGetPerformatives(String data, Session session) throws IOException {

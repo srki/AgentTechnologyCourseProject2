@@ -1,5 +1,7 @@
 package com.ftn.informatika.agents.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +12,7 @@ public class ACLMessage {
     private Performative performative;
     private AID sender;
     private List<AID> receivers;
-    private AID replayTo;
+    private AID replyTo;
     private String content;
     private Object contentObj;
     private Map<String, Object> userArgs;
@@ -19,10 +21,13 @@ public class ACLMessage {
     private String ontology;
     private String protocol;
     private String conversationID;
-    private String replayWith;
+    private String replyWith;
     private String inReplyTo;
-    private Long ReplyBy;
+    private Long replyBy;
+
     public ACLMessage() {
+        receivers = new ArrayList<>();
+        userArgs = new HashMap<>();
     }
 
     public Performative getPerformative() {
@@ -49,12 +54,12 @@ public class ACLMessage {
         this.receivers = receivers;
     }
 
-    public AID getReplayTo() {
-        return replayTo;
+    public AID getReplyTo() {
+        return replyTo;
     }
 
-    public void setReplayTo(AID replayTo) {
-        this.replayTo = replayTo;
+    public void setReplyTo(AID replyTo) {
+        this.replyTo = replyTo;
     }
 
     public String getContent() {
@@ -121,12 +126,12 @@ public class ACLMessage {
         this.conversationID = conversationID;
     }
 
-    public String getReplayWith() {
-        return replayWith;
+    public String getReplyWith() {
+        return replyWith;
     }
 
-    public void setReplayWith(String replayWith) {
-        this.replayWith = replayWith;
+    public void setReplyWith(String replyWith) {
+        this.replyWith = replyWith;
     }
 
     public String getInReplyTo() {
@@ -138,11 +143,11 @@ public class ACLMessage {
     }
 
     public Long getReplyBy() {
-        return ReplyBy;
+        return replyBy;
     }
 
     public void setReplyBy(Long replyBy) {
-        ReplyBy = replyBy;
+        this.replyBy = replyBy;
     }
 
     public enum Performative {
@@ -170,6 +175,5 @@ public class ACLMessage {
         PROPAGATE,
         UNKNOWN,
     }
-
 
 }
