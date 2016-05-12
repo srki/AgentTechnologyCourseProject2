@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.web_client.beans;
+package com.ftn.informatika.agents.environment;
 
 import com.ftn.informatika.agents.model.ACLMessage;
 

@@ -2,17 +2,16 @@ package com.ftn.informatika.agents.web_client.service.web_socket;
 
 import com.ftn.informatika.agents.model.ACLMessage;
 import com.ftn.informatika.agents.model.AID;
-import com.ftn.informatika.agents.web_client.beans.AgentsLocal;
-import com.ftn.informatika.agents.web_client.beans.MessagesLocal;
+import com.ftn.informatika.agents.environment.AgentsLocal;
+import com.ftn.informatika.agents.environment.MessagesLocal;
+import com.ftn.informatika.agents.web_client.service.web_socket.beans.SessionsDbLocal;
 import com.ftn.informatika.agents.web_client.service.web_socket.model.RunAgentRequest;
 import com.ftn.informatika.agents.web_client.service.web_socket.model.WebSocketPacket;
 import com.google.gson.Gson;
 
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
-import javax.websocket.OnError;
-import javax.websocket.OnMessage;
-import javax.websocket.Session;
+import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 
@@ -27,6 +26,8 @@ public class ConsoleWebSocket {
     private AgentsLocal agentsBean;
     @EJB
     private MessagesLocal messagesBean;
+    @EJB
+    private SessionsDbLocal sessionsBean;
 
     @OnMessage
     public void onMessage(String message, Session session) {
@@ -69,6 +70,16 @@ public class ConsoleWebSocket {
     @OnError
     public void onError(Throwable error) {
         System.err.println("onError: " + error.getMessage());
+    }
+
+    @OnOpen
+    public void onOpen(Session session) {
+        sessionsBean.addSession(session);
+    }
+
+    @OnClose
+    public void onClose(Session session) {
+        sessionsBean.removeSession(session);
     }
 
     private void handleGetClasses(String data, Session session) throws IOException {

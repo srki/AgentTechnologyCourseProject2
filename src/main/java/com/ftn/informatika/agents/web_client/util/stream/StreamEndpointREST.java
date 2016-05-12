@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.web_client.util;
+package com.ftn.informatika.agents.web_client.util.stream;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,5 +12,6 @@ import java.util.List;
 @Path("/stream")
 public interface StreamEndpointREST {
     @GET
-    List<String> getMessages(@QueryParam("last") Long last);
+    List<StreamMessage> getMessages(@QueryParam("last") Long last);
+
 }

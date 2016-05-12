@@ -1,7 +1,7 @@
 package com.ftn.informatika.agents.web_client.service.http;
 
 import com.ftn.informatika.agents.model.ACLMessage;
-import com.ftn.informatika.agents.web_client.beans.MessagesLocal;
+import com.ftn.informatika.agents.environment.MessagesLocal;
 import com.ftn.informatika.agents.web_client.service.http.endpoint_interface.MessagesEndpointREST;
 
 import javax.ejb.EJB;

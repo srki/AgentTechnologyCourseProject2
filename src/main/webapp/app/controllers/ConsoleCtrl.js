@@ -20,7 +20,7 @@
                     // Get all performatives
                     consoleService.getPerformatives(
                         function (response) {
-                            console.log(response);
+                            console.log(response.data);
                         },
                         function (response) {
 
@@ -29,7 +29,7 @@
 
                     // Init message stream and clean it on destroy
                     $scope.$on("$destroy", consoleService.setStreamListeners(function (response) {
-                        console.log(response)
+                        console.log(response.data)
                     }));
 
                 };

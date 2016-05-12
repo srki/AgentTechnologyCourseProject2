@@ -62,6 +62,7 @@ public class WebSocketPacket {
         RUN_AGENT,
         STOP_AGENT,
         SEND_MESSAGE,
-        GET_PERFORMATIVES
+        GET_PERFORMATIVES,
+        STREAM_MESSAGE
     }
 }

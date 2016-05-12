@@ -79,8 +79,8 @@
                     addListenersAndSend('GET_PERFORMATIVES', success, error);
                 },
                 setStreamListeners: function (success, error) {
-                    addSuccessListener('STREAM_LISTENER', success);
-                    addErrorListener('STREAM_LISTENER', error);
+                    addSuccessListener('STREAM_MESSAGE', success);
+                    addErrorListener('STREAM_MESSAGE', error);
                 }
             };
         });

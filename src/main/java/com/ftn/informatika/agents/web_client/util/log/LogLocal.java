@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.web_client.util;
+package com.ftn.informatika.agents.web_client.util.log;
 
 import javax.ejb.Local;
 
