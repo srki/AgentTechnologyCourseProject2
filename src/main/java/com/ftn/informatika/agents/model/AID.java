@@ -1,5 +1,7 @@
 package com.ftn.informatika.agents.model;
 
+import com.google.gson.Gson;
+
 /**
  * @author - Srđan Milaković
  */
@@ -12,7 +14,10 @@ public class AID {
     }
 
     public AID(String string) {
-
+        AID aid = new Gson().fromJson(string, AID.class);
+        this.name = aid.getName();
+        this.host = aid.getHost();
+        this.type = aid.getType();
     }
 
     public AID(String name, AgentCenter host, AgentType type) {

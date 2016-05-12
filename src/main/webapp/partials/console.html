@@ -29,7 +29,7 @@
                         <tr ng-repeat="type in agentTypes">
                             <td class="green">{{type.name}}</td>
                             <td>{{type.module}}</td>
-                            <td class="clickable ta-mid" ng-click="startAgent(type)">
+                            <td class="clickable ta-mid" ng-click="runAgent(type)">
                                 <span class="glyphicon glyphicon-flash yellow"></span>
                             </td>
                         </tr>
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="header">Running agents</div>
+                <div class="header">Running Agents</div>
                 <div class="content">
                     <table class="table">
                         <tr>

@@ -22,12 +22,17 @@
                     }).then(success, error);
                 },
                 runAgent: function (type, name, success, error) {
+                    type = JSON.stringify(type);
+                    name = JSON.stringify(name);
+
                     $http({
                         method: 'PUT',
                         url: 'api/agents/running/' + type + '/' + name
                     }).then(success, error);
                 },
                 stopAgent: function (aid, success, error) {
+                    aid = JSON.stringify(aid);
+
                     $http({
                         method: 'DELETE',
                         url: 'api/agents/running/' + aid

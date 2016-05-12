@@ -7,7 +7,7 @@
     "use strict";
 
     angular.module('app.ConsoleCtrl', [])
-        .controller('ConsoleCtrl', function ($rootScope, $location, $scope, HttpConsole, WebSocketConsole) {
+        .controller('ConsoleCtrl', function ($rootScope, $location, $scope, $uibModal, HttpConsole, WebSocketConsole) {
             var consoleService = null,
                 init = function () {
                     var errorCallback = function (response) {
@@ -78,12 +78,31 @@
 
                 };
 
-            $scope.startAgent = function (type) {
+            $scope.runAgent = function (type) {
+                var scope = $scope.$new(true);
+                scope.consoleService = consoleService;
+                scope.type = type;
 
+                $uibModal.open({
+                    animation: true,
+                    templateUrl: 'partials/new_agent_modal.html',
+                    controller: 'NewAgentModalCtrl',
+                    scope: scope
+                });
             };
 
-            $scope.newMessage = function () {
+            $scope.newMessage = function (aid) {
+                var scope = $scope.$new(true);
+                scope.consoleService = consoleService;
+                scope.receivers = [aid];
 
+                $uibModal.open({
+                    animation: true,
+                    templateUrl: 'partials/new_message_modal.html',
+                    controller: 'NewMessageModalCtrl',
+                    size: 'lg',
+                    scope: scope
+                });
             };
 
             init();

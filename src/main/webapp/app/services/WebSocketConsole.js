@@ -21,7 +21,7 @@
                 send = function (type, data) {
                     var json = JSON.stringify({
                         type: type,
-                        data: data
+                        data: JSON.stringify(data)
                     });
 
                     if (socket.readyState == socket.CONNECTING) {
@@ -81,7 +81,7 @@
                 },
                 runAgent: function (type, name, success, error) {
                     addListenersAndSend('RUN_AGENT', success, error, {
-                        type: type,
+                        agentType: type,
                         name: name
                     });
                 },

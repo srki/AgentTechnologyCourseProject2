@@ -7,9 +7,38 @@
     "use strict";
 
     angular.module('app.NewAgentModalCtrl', [])
-        .controller('NewAgentModalCtrl', function ($scope) {
-            var init = function () {
+        .controller('NewAgentModalCtrl', function ($scope, $uibModalInstance) {
+            var type = {},
+                init = function () {
+                    type = {
+                        name: $scope.type.name,
+                        module: $scope.type.module
+                    }
+                };
 
+            $scope.runAgent = function () {
+                if (!$scope.name) {
+                    $scope.alertMessage = "Name can not be empty."
+                } else {
+                    $scope.alertMessage = null;
+                }
+
+                if ($scope.alertMessage) {
+                    return;
+                }
+
+                $scope.consoleService.runAgent($scope.type, $scope.name,
+                    function () {
+                        $scope.close();
+                    },
+                    function (response) {
+                        $scope.alertMessage = "Error:" + response.data.message;
+                    });
+
+            };
+
+            $scope.close = function () {
+                $uibModalInstance.close();
             };
 
             init();

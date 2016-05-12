@@ -1,5 +1,7 @@
 package com.ftn.informatika.agents.model;
 
+import com.google.gson.Gson;
+
 /**
  * @author - Srđan Milaković
  */
@@ -11,9 +13,9 @@ public class AgentType {
     }
 
     public AgentType(String string) {
-        String[] split = string.split(";");
-        module = split[0];
-        name = split[1];
+        AgentType agentType = new Gson().fromJson(string, AgentType.class);
+        name = agentType.getName();
+        module = agentType.getModule();
     }
 
     public AgentType(String name, String module) {
