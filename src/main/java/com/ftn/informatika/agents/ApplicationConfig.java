@@ -8,6 +8,6 @@ import javax.ws.rs.core.Application;
  */
 @ApplicationPath("/api")
 public class ApplicationConfig extends Application {
-
+    public static final String APPLICATION_URL = "http://%s/api";
 }
 

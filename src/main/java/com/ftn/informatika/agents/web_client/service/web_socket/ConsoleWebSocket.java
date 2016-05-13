@@ -2,8 +2,8 @@ package com.ftn.informatika.agents.web_client.service.web_socket;
 
 import com.ftn.informatika.agents.environment.AgentsLocal;
 import com.ftn.informatika.agents.environment.MessagesLocal;
-import com.ftn.informatika.agents.model.ACLMessage;
-import com.ftn.informatika.agents.model.AID;
+import com.ftn.informatika.agents.environment.model.ACLMessage;
+import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.web_client.service.web_socket.beans.SessionsDbLocal;
 import com.ftn.informatika.agents.web_client.service.web_socket.model.RunAgentRequest;
 import com.ftn.informatika.agents.web_client.service.web_socket.model.WebSocketPacket;

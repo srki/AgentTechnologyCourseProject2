@@ -1,7 +1,7 @@
 package com.ftn.informatika.agents.web_client.service.http.endpoint_interface;
 
-import com.ftn.informatika.agents.model.AID;
-import com.ftn.informatika.agents.model.AgentType;
+import com.ftn.informatika.agents.environment.model.AID;
+import com.ftn.informatika.agents.environment.model.AgentType;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

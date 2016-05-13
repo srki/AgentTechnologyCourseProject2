@@ -1,6 +1,6 @@
 package com.ftn.informatika.agents.config;
 
-import com.ftn.informatika.agents.model.AgentCenter;
+import com.ftn.informatika.agents.environment.model.AgentCenter;
 
 import javax.ejb.Local;
 
@@ -8,7 +8,7 @@ import javax.ejb.Local;
  * @author - Srđan Milaković
  */
 @Local
-public interface ConfigurationDbLocal {
+public interface ConfigurationLocal {
     String getMasterAddress();
 
     void setMasterAddress(String masterAddress);

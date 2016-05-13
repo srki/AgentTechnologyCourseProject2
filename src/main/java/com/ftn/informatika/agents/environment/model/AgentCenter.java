@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.model;
+package com.ftn.informatika.agents.environment.model;
 
 /**
  * @author - Srđan Milaković
@@ -31,5 +31,20 @@ public class AgentCenter {
         this.alias = alias;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AgentCenter that = (AgentCenter) o;
+
+        return alias != null ? alias.equals(that.alias) : that.alias == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return alias != null ? alias.hashCode() : 0;
+    }
 }
 

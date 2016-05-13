@@ -1,8 +1,8 @@
 package com.ftn.informatika.agents.web_client.service.http;
 
-import com.ftn.informatika.agents.model.AID;
-import com.ftn.informatika.agents.model.AgentType;
 import com.ftn.informatika.agents.environment.AgentsLocal;
+import com.ftn.informatika.agents.environment.model.AID;
+import com.ftn.informatika.agents.environment.model.AgentType;
 import com.ftn.informatika.agents.web_client.service.http.endpoint_interface.AgentsEndpointREST;
 
 import javax.ejb.EJB;

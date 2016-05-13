@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.model;
+package com.ftn.informatika.agents.environment.model;
 
 /**
  * @author - Srđan Milaković

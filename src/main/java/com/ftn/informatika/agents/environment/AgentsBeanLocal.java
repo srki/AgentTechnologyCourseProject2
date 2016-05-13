@@ -1,7 +1,7 @@
 package com.ftn.informatika.agents.environment;
 
-import com.ftn.informatika.agents.model.AID;
-import com.ftn.informatika.agents.model.AgentType;
+import com.ftn.informatika.agents.environment.model.AID;
+import com.ftn.informatika.agents.environment.model.AgentType;
 
 import javax.ejb.Singleton;
 import java.util.ArrayList;

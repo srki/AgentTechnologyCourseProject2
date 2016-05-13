@@ -1,8 +1,8 @@
 package com.ftn.informatika.agents.config.startup;
 
 import com.ftn.informatika.agents.clustering.NodesDbLocal;
-import com.ftn.informatika.agents.config.ConfigurationDbLocal;
-import com.ftn.informatika.agents.model.AgentCenter;
+import com.ftn.informatika.agents.config.ConfigurationLocal;
+import com.ftn.informatika.agents.environment.model.AgentCenter;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -25,7 +25,7 @@ public class StartupBeanLocal implements StartupLocal {
     private static final String PORT_OFFSET_KEY = "jboss.socket.binding.port-offset";
 
     @EJB
-    private ConfigurationDbLocal configurationDbBean;
+    private ConfigurationLocal configurationDbBean;
     @EJB
     private NodesDbLocal nodesDbBean;
 
@@ -72,8 +72,6 @@ public class StartupBeanLocal implements StartupLocal {
 
         if (!configurationDbBean.isMaster()) {
             registerToMaster();
-        } else {
-            nodesDbBean.addNode(configurationDbBean.getAgentCenter());
         }
     }
 

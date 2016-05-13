@@ -1,6 +1,6 @@
 package com.ftn.informatika.agents.web_client.service.web_socket.model;
 
-import com.ftn.informatika.agents.model.AgentType;
+import com.ftn.informatika.agents.environment.model.AgentType;
 
 /**
  * @author - Srđan Milaković

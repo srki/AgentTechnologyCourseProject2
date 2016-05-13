@@ -1,6 +1,6 @@
 package com.ftn.informatika.agents.config;
 
-import com.ftn.informatika.agents.model.AgentCenter;
+import com.ftn.informatika.agents.environment.model.AgentCenter;
 
 import javax.ejb.*;
 
@@ -9,7 +9,7 @@ import javax.ejb.*;
  */
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 @Singleton
-public class ConfigurationDbBeanLocal implements ConfigurationDbLocal {
+public class ConfigurationBeanLocal implements ConfigurationLocal {
     private String masterAddress;
     private AgentCenter agentCenter;
 

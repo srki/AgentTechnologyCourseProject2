@@ -1,6 +1,6 @@
 package com.ftn.informatika.agents.environment;
 
-import com.ftn.informatika.agents.model.ACLMessage;
+import com.ftn.informatika.agents.environment.model.ACLMessage;
 
 import javax.ejb.Stateless;
 import java.util.ArrayList;

@@ -1,6 +1,7 @@
 package com.ftn.informatika.agents.clustering;
 
-import com.ftn.informatika.agents.model.AgentCenter;
+import com.ftn.informatika.agents.environment.model.AgentCenter;
+import com.ftn.informatika.agents.exception.AliasExistsException;
 
 import javax.ejb.*;
 import java.util.ArrayList;
@@ -18,7 +19,11 @@ public class NodesDbBeanLocal implements NodesDbLocal {
 
     @Lock(LockType.WRITE)
     @Override
-    public void addNode(AgentCenter agentCenter) {
+    public void addNode(AgentCenter agentCenter) throws AliasExistsException {
+        if (nodes.containsKey(agentCenter.getAlias())) {
+            throw new AliasExistsException();
+        }
+
         nodes.put(agentCenter.getAlias(), agentCenter);
     }
 
@@ -28,16 +33,19 @@ public class NodesDbBeanLocal implements NodesDbLocal {
         nodes.remove(agentCenter.getAlias());
     }
 
+    @Lock(LockType.READ)
     @Override
     public boolean containsNode(AgentCenter agentCenter) {
         return nodes.containsKey(agentCenter.getAlias());
     }
 
+    @Lock(LockType.READ)
     @Override
     public boolean containsNode(String alias) {
         return nodes.containsKey(alias);
     }
 
+    @Lock(LockType.READ)
     @Override
     public List<AgentCenter> getNodes() {
         return new ArrayList<>(nodes.values());
