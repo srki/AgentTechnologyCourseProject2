@@ -30,5 +30,6 @@ public class AgentCenter {
     public void setAlias(String alias) {
         this.alias = alias;
     }
+
 }
 

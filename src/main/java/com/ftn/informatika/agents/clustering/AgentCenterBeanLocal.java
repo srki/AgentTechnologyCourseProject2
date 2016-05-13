@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.nodes;
+package com.ftn.informatika.agents.clustering;
 
 import com.ftn.informatika.agents.exception.AliasNotExistsException;
 import com.ftn.informatika.agents.exception.NodeExistsException;
