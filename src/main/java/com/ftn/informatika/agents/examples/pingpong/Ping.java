@@ -1,12 +1,12 @@
 package com.ftn.informatika.agents.examples.pingpong;
 
-import com.ftn.informatika.agents.config.ConfigurationBean;
+import com.ftn.informatika.agents.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.Agent;
 import com.ftn.informatika.agents.environment.model.AgentType;
 import com.ftn.informatika.agents.environment.model.remote.RemoteAgent;
-import com.ftn.informatika.agents.environment.util.log.LogBean;
+import com.ftn.informatika.agents.environment.util.log.LogLocal;
 
 import javax.ejb.EJB;
 import javax.ejb.Remote;
@@ -23,10 +23,10 @@ import javax.ejb.Stateful;
 public class Ping extends Agent{
 
     @EJB
-    private LogBean logger;
+    private LogLocal logger;
 
     @EJB
-    private ConfigurationBean config;
+    private ConfigurationLocal config;
 
     @Override
     protected boolean handleRequest(ACLMessage message) {
