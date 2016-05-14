@@ -3,9 +3,8 @@ package com.ftn.informatika.agents.environment.service.http;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.AgentType;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +12,8 @@ import java.util.Map;
  * @author - Srđan Milaković
  */
 @Path("/agents")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public interface AgentsManagementEndpointREST {
     @POST
     @Path("/classes")

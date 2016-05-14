@@ -6,6 +6,7 @@ import com.ftn.informatika.agents.config.AgentsReader;
 import com.ftn.informatika.agents.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.AgentsLocal;
 import com.ftn.informatika.agents.environment.model.AgentCenter;
+import com.ftn.informatika.agents.exception.AliasExistsException;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -80,7 +81,20 @@ public class StartupBeanLocal implements StartupLocal {
 
 
         if (!configurationDbBean.isMaster()) {
-            new NodesRequester(masterAddress).addNodes(Collections.singletonList(agentCenter));
+            new Thread(() -> {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                new NodesRequester(masterAddress).addNodes(Collections.singletonList(agentCenter));
+            }).start();
+        } else {
+            try {
+                nodesDbBean.addNode(agentCenter);
+            } catch (AliasExistsException e) {
+                e.printStackTrace();
+            }
         }
     }
 

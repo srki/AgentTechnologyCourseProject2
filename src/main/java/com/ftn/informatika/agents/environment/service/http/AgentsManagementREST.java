@@ -5,6 +5,7 @@ import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.AgentType;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
 /**
  * @author - Srđan Milaković
  */
+@Stateless
 public class AgentsManagementREST implements AgentsManagementEndpointREST {
 
     @EJB

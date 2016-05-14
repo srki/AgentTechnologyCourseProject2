@@ -1,8 +1,8 @@
 package com.ftn.informatika.agents.clustering;
 
+import com.ftn.informatika.agents.clustering.http.NodesRequester;
 import com.ftn.informatika.agents.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.AgentsLocal;
-import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.AgentCenter;
 import com.ftn.informatika.agents.environment.model.AgentType;
 import com.ftn.informatika.agents.environment.service.http.AgentsManagementRequester;
@@ -12,6 +12,7 @@ import com.ftn.informatika.agents.exception.AliasNotExistsException;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,27 +38,34 @@ public class NodesManagementBeanLocal implements NodesManagementLocal {
 
             AgentCenter newAgentCenter = agentCenters.get(0);
             AgentsRequester agentsRequester = new AgentsRequester(newAgentCenter.getAddress());
-            List<AgentType> agentTypes = agentsRequester.getClasses();
-            List<AID> agents = agentsRequester.getRunning();
 
+            List<AgentType> agentTypes = agentsRequester.getClasses();
 
             try {
                 for (AgentCenter agentCenter : nodesDbBean.getNodes()) {
-                    AgentsManagementRequester requester = new AgentsManagementRequester(agentCenter.getAddress());
-                    requester.addClasses(newAgentCenter, agentTypes);
-                    requester.addRunning(agents);
+                    if (configurationBean.getAlias().equals(agentCenter.getAlias())) {
+                        continue;
+                    }
+                    new NodesRequester(agentCenter.getAddress()).addNodes(Collections.singletonList(newAgentCenter));
+                    new AgentsManagementRequester(agentCenter.getAddress()).addClasses(newAgentCenter, agentTypes);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            AgentsManagementRequester requester = new AgentsManagementRequester(newAgentCenter.getAddress());
-            nodesDbBean.addNode(newAgentCenter);
+            new NodesRequester(newAgentCenter.getAddress()).addNodes(nodesDbBean.getNodes());
 
+            AgentsManagementRequester requester = new AgentsManagementRequester(newAgentCenter.getAddress());
+            requester.addClasses(agentsBean.getAllClasses());
+            requester.addRunning(agentsBean.getAllRunningAgents());
+
+            nodesDbBean.addNode(newAgentCenter);
+            System.out.println(newAgentCenter.getAlias() + " registered to " + configurationBean.getAlias());
         } else {
-            agentCenters.forEach(ac -> {
+            agentCenters.forEach(agentCenter -> {
                 try {
-                    nodesDbBean.addNode(ac);
+                    nodesDbBean.addNode(agentCenter);
+                    System.out.println(agentCenter.getAlias() + " registered to " + configurationBean.getAlias());
                 } catch (AliasExistsException e) {
                     e.printStackTrace();
                 }
