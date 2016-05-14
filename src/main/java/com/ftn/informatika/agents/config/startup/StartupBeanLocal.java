@@ -78,6 +78,7 @@ public class StartupBeanLocal implements StartupLocal {
         configurationDbBean.setAgentCenter(agentCenter);
         agentsBean.addClasses(AgentsReader.getAgentsList());
 
+
         if (!configurationDbBean.isMaster()) {
             new NodesRequester(masterAddress).addNodes(Collections.singletonList(agentCenter));
         }

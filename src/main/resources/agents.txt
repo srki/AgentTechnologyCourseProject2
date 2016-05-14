@@ -1,3 +1,4 @@
+com.ftn.informatika.agents.environment.model, Agent
 package1,class1
 package2,class2
 package3,class3

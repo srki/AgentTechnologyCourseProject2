@@ -39,6 +39,18 @@ public class AgentType {
         this.module = module;
     }
 
+    public Agent createInstance(String agentName, AgentCenter host) {
+        try {
+            Class<?> agentClass = Class.forName(module + "." + name);
+            Agent agent = (Agent) agentClass.newInstance();
+            agent.setId(new AID(agentName, host, this));
+            return agent;
+        } catch (IllegalAccessException | InstantiationException | ClassNotFoundException e) {
+            System.err.println("Can not create agent from " + this);
+            return null;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -56,5 +68,13 @@ public class AgentType {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (module != null ? module.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "AgentType{" +
+                "name='" + name + '\'' +
+                ", module='" + module + '\'' +
+                '}';
     }
 }

@@ -49,4 +49,25 @@ public class AID {
     public void setType(AgentType type) {
         this.type = type;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AID aid = (AID) o;
+
+        return name != null ? name.equals(aid.name) : aid.name == null
+                && (host != null ? host.equals(aid.host) : aid.host == null
+                && (type != null ? type.equals(aid.type) : aid.type == null));
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (host != null ? host.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
+    }
 }

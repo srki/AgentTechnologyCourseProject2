@@ -28,7 +28,7 @@ public class AgentsReader {
                 if (agent.length != 2) {
                     System.err.println("Error in [" + FILE_NAME + "] line: " + line);
                 }
-                retVal.add(new AgentType(agent[1], agent[0]));
+                retVal.add(new AgentType(agent[1].trim(), agent[0].trim()));
             }
         } catch (IOException e) {
             e.printStackTrace();

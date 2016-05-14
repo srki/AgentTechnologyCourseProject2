@@ -1,12 +1,14 @@
 package com.ftn.informatika.agents.environment;
 
 import com.ftn.informatika.agents.environment.model.AID;
+import com.ftn.informatika.agents.environment.model.Agent;
 import com.ftn.informatika.agents.environment.model.AgentType;
 
 import javax.ejb.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author - Srđan Milaković
@@ -17,7 +19,7 @@ public class AgentsBeanLocal implements AgentsLocal {
     private List<AgentType> localTypes = new ArrayList<>();
     private HashMap<String, List<AgentType>> remoteTypes = new HashMap<>();
 
-    private List<AID> localAgents = new ArrayList<>();
+    private Map<AID, Agent> localAgents = new HashMap<>();
     private List<AID> agents = new ArrayList<>();
 
     @Lock(LockType.READ)
@@ -65,7 +67,7 @@ public class AgentsBeanLocal implements AgentsLocal {
      */
     @Lock(LockType.READ)
     @Override
-    public List<AID> getRunningAgents() {
+    public Map<AID, Agent> getRunningAgents() {
         return localAgents;
     }
 
@@ -88,7 +90,7 @@ public class AgentsBeanLocal implements AgentsLocal {
     @Lock(LockType.WRITE)
     @Override
     public void removeRunningAgents(List<AID> agents) {
-        this.agents.addAll(agents);
+        this.agents.removeAll(agents);
     }
 
     @Lock(LockType.WRITE)
@@ -103,5 +105,10 @@ public class AgentsBeanLocal implements AgentsLocal {
     public AID stopAgent(AID aid) {
         // TODO: implement
         return null;
+    }
+
+    @Override
+    public Agent getAgent(AID aid) {
+        return localAgents.get(aid);
     }
 }
