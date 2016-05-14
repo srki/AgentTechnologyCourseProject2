@@ -5,7 +5,6 @@ import com.ftn.informatika.agents.environment.model.Agent;
 import com.ftn.informatika.agents.environment.model.AgentType;
 
 import javax.ejb.Local;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,11 +16,13 @@ public interface AgentsLocal extends AgentsRemote {
     // Agent classes
     List<AgentType> getLocalClasses();
 
-    HashMap<String, List<AgentType>> getClasses();
+    Map<String, List<AgentType>> getClasses();
 
     void addClasses(List<AgentType> types);
 
     void addClasses(String alias, List<AgentType> types);
+
+    List<AgentType> getClassesAsList();
 
     void removeClasses(String alias, List<AgentType> types);
 

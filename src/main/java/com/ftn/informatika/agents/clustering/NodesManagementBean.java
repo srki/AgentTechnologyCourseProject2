@@ -52,8 +52,10 @@ public class NodesManagementBean implements NodesManagementLocal {
                 e.printStackTrace();
             }
 
-            // Deliver all nodes to the new node
             nodesDbBean.addNode(newAgentCenter);
+            agentsBean.addClasses(newAgentCenter.getAlias(), agentTypes);
+
+            // Deliver all nodes to the new node
             new NodesRequester(newAgentCenter.getAddress()).addNodes(nodesDbBean.getNodes());
 
             // Deliver all classes and running agents to the new node

@@ -38,13 +38,11 @@
                                 case 'LOG':
                                     $scope.logs.push(response.data[msg]);
                                     break;
-                                case "ADD_CLASS":
+                                case "CLASSES":
+                                    $scope.agentTypes = response.data[msg].content;
                                     break;
-                                case "REMOVE_CLASS":
-                                    break;
-                                case "ADD_AGENT":
-                                    break;
-                                case "REMOVE_AGENT":
+                                case "AGENTS":
+                                    $scope.runningAgents = response.data[msg].content;
                                     break;
                             }
                         }
@@ -69,7 +67,6 @@
                             module: 'rs.ac.uns.ftn.informatika.agents',
                             name: 'ping' + (i + 1)
                         });
-
 
                         $scope.runningAgents.push({
                             name: 'Agent 00' + i,

@@ -4,12 +4,11 @@ import com.ftn.informatika.agents.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.Agent;
 import com.ftn.informatika.agents.environment.model.AgentType;
+import com.ftn.informatika.agents.web_client.util.StreamLocal;
+import com.ftn.informatika.agents.web_client.util.StreamMessage;
 
 import javax.ejb.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author - Srđan Milaković
@@ -20,6 +19,8 @@ public class AgentsBean implements AgentsLocal, AgentsRemote {
 
     @EJB
     private ConfigurationLocal configurationBean;
+    @EJB
+    private StreamLocal streamBean;
 
     private List<AgentType> localTypes = new ArrayList<>();
     private HashMap<String, List<AgentType>> allTypes = new HashMap<>();
@@ -35,15 +36,22 @@ public class AgentsBean implements AgentsLocal, AgentsRemote {
 
     @Lock(LockType.READ)
     @Override
-    public HashMap<String, List<AgentType>> getClasses() {
+    public Map<String, List<AgentType>> getClasses() {
         return allTypes;
+    }
+
+    @Override
+    public List<AgentType> getClassesAsList() {
+        Set<AgentType> set = new HashSet<>();
+        allTypes.forEach((alias, list) -> set.addAll(list));
+        return new ArrayList<>(set);
     }
 
     @Lock(LockType.WRITE)
     @Override
     public void addClasses(List<AgentType> types) {
-        addClasses(configurationBean.getAlias(), types);
         localTypes.addAll(types);
+        addClasses(configurationBean.getAlias(), types);
     }
 
     @Lock(LockType.WRITE)
@@ -54,6 +62,7 @@ public class AgentsBean implements AgentsLocal, AgentsRemote {
         }
 
         this.allTypes.get(alias).addAll(types);
+        sendClassesToStream();
     }
 
     @Lock(LockType.WRITE)
@@ -96,12 +105,14 @@ public class AgentsBean implements AgentsLocal, AgentsRemote {
     @Override
     public void addRunningAgents(List<AID> agents) {
         allAgents.addAll(agents);
+        sendClassesToStream();
     }
 
     @Lock(LockType.WRITE)
     @Override
     public void removeRunningAgents(List<AID> agents) {
         allAgents.removeAll(agents);
+        sendClassesToStream();
     }
 
     @Lock(LockType.WRITE)
@@ -116,12 +127,14 @@ public class AgentsBean implements AgentsLocal, AgentsRemote {
         });
 
         allAgents.removeAll(removeList);
+        sendClassesToStream();
     }
 
     @Lock(LockType.WRITE)
     @Override
     public AID runAgent(AgentType agentType, String name) {
         // TODO: implement
+        sendAgentsToStream();
         return null;
     }
 
@@ -129,11 +142,20 @@ public class AgentsBean implements AgentsLocal, AgentsRemote {
     @Override
     public AID stopAgent(AID aid) {
         // TODO: implement
+        sendAgentsToStream();
         return null;
     }
 
     @Override
     public Agent getAgent(AID aid) {
         return localAgents.get(aid);
+    }
+
+    private void sendClassesToStream() {
+        streamBean.sendMessage(new StreamMessage(StreamMessage.MessageType.CLASSES, getClassesAsList()));
+    }
+
+    private void sendAgentsToStream() {
+        streamBean.sendMessage(new StreamMessage(StreamMessage.MessageType.AGENTS, getLocalRunningAgents()));
     }
 }

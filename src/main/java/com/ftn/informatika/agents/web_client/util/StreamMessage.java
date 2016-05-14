@@ -45,9 +45,7 @@ public class StreamMessage {
 
     public enum MessageType {
         LOG,
-        ADD_CLASS,
-        REMOVE_CLASS,
-        ADD_AGENT,
-        REMOVE_AGENT
+        CLASSES,
+        AGENTS
     }
 }
