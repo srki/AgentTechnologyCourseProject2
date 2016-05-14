@@ -36,7 +36,7 @@ Set Host Name
 ### Example
 ```bash
 # Master Node
-.\standalone.bat -Djboss.server.default.config=standalone-full.xml -Dlocal=192.168.0.1:8080 -Dalias=MasterNode -b 0.0.0.0
+.\standalone.bat -Djboss.server.default.config=standalone-full.xml -Dlocal="192.168.0.1:8080" -Dalias=MasterNode -b 0.0.0.0
 
 # Slave Node 1
 .\standalone.bat -Djboss.server.default.config=standalone-full.xml -Dlocal="192.168.0.1:8180" -Dmaster="192.168.0.1:8080" -Dalias=SlaveNode1 -Djboss.socket.binding.port-offset=100 -b 0.0.0.0
