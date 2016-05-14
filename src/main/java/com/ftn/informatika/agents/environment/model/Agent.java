@@ -1,22 +1,36 @@
 package com.ftn.informatika.agents.environment.model;
 
+import com.ftn.informatika.agents.environment.AgentsRemote;
+import com.ftn.informatika.agents.environment.MessagesRemote;
+import com.ftn.informatika.agents.environment.model.remote.RemoteAgent;
+import com.ftn.informatika.agents.environment.util.factory.ManagerFactory;
+import com.ftn.informatika.agents.environment.util.log.LogBean;
+
+import javax.ejb.EJB;
+import javax.ejb.Lock;
+import javax.ejb.LockType;
+
 /**
+ * Base class for all agents.
+ *
  * @author - Srđan Milaković
+ * @author Dragan Vidakovic
  */
-public class Agent {
-    private AID id;
 
-    public Agent() {
+@Lock(LockType.READ)
+public abstract class Agent implements RemoteAgent {
+
+    protected AID myAid;
+
+    private AgentsRemote agm;
+    private MessagesRemote msm;
+
+    @Override
+    public void init(AID aid) {
+        myAid = aid;
     }
 
-    public AID getId() {
-        return id;
-    }
-
-    public void setId(AID id) {
-        this.id = id;
-    }
-
+    @Override
     public boolean handleMessage(ACLMessage message) {
         switch (message.getPerformative()) {
             case ACCEPT_PROPOSAL:
@@ -162,4 +176,23 @@ public class Agent {
         return false;
     }
 
+    public AID getId() {
+        return myAid;
+    }
+
+    public void setId(AID myAid) {
+        this.myAid = myAid;
+    }
+
+    protected AgentsRemote agm() {
+        if (agm == null)
+            agm = ManagerFactory.getAgentManager();
+        return agm;
+    }
+
+    protected MessagesRemote msm() {
+        if (msm == null)
+            msm = ManagerFactory.getMessagesManager();
+        return msm;
+    }
 }

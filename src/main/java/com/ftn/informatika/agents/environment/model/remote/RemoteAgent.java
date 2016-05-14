@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.agents;
+package com.ftn.informatika.agents.environment.model.remote;
 
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 import com.ftn.informatika.agents.environment.model.AID;
@@ -8,16 +8,10 @@ import com.ftn.informatika.agents.environment.model.AID;
  *
  * @author Dragan Vidakovic
  */
-
-// TODO: Refactor RemoteAgent.
 public interface RemoteAgent {
 
     void init(AID aid);
 
-    void stop();
-
-    void handleMessage(ACLMessage msg);
-
-    String ping();
+    boolean handleMessage(ACLMessage msg);
 
 }
