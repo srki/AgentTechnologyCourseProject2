@@ -1,4 +1,2 @@
-com.ftn.informatika.agents.environment.model, Agent
-package1,class1
-package2,class2
-package3,class3
+com.ftn.informatika.agents.examples.pingpong, Ping
+com.ftn.informatika.agents.examples.pingpong, Pong
