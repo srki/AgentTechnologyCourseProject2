@@ -38,4 +38,23 @@ public class AgentType {
     public void setModule(String module) {
         this.module = module;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AgentType agentType = (AgentType) o;
+
+        return name != null ? name.equals(agentType.name) : agentType.name == null
+                && (module != null ? module.equals(agentType.module) : agentType.module == null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (module != null ? module.hashCode() : 0);
+        return result;
+    }
 }

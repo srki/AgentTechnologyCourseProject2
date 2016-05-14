@@ -6,7 +6,9 @@ import com.ftn.informatika.agents.environment.model.AgentCenter;
 import com.ftn.informatika.agents.environment.model.AgentType;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author - Srđan Milaković
@@ -19,19 +21,31 @@ public class AgentsManagementRequester {
         this.destinationAddress = destinationAddress;
     }
 
-    private void addClasses(AgentCenter agentCenter, List<AgentType> agentTypes) {
-        createEndpoint().addClasses(new AgentTypesRequest(agentCenter, agentTypes));
+    public void addClasses(Map<String, List<AgentType>> classes) {
+        createEndpoint().addClasses(classes);
     }
 
-    private void addRunning(List<AID> agents) {
+    public void addClasses(AgentCenter agentCenter, List<AgentType> agentTypes) {
+        Map<String, List<AgentType>> classes = new HashMap<>();
+        classes.put(agentCenter.getAlias(), agentTypes);
+        addClasses(classes);
+    }
+
+    public void addRunning(List<AID> agents) {
         createEndpoint().addRunning(agents);
     }
 
-    private void removeClasses(AgentCenter agentCenter, List<AgentType> agentTypes) {
-        createEndpoint().removeClasses(new AgentTypesRequest(agentCenter, agentTypes));
+    public void removeClasses(Map<String, List<AgentType>> classes) {
+        createEndpoint().removeClasses(classes);
     }
 
-    private void removeRunning(List<AID> agents) {
+    public void removeClasses(AgentCenter agentCenter, List<AgentType> agentTypes) {
+        Map<String, List<AgentType>> classes = new HashMap<>();
+        classes.put(agentCenter.getAlias(), agentTypes);
+        removeClasses(classes);
+    }
+
+    public void removeRunning(List<AID> agents) {
         createEndpoint().removeRunning(agents);
     }
 

@@ -1,7 +1,10 @@
 package com.ftn.informatika.agents.config.startup;
 
 import com.ftn.informatika.agents.clustering.NodesDbLocal;
+import com.ftn.informatika.agents.clustering.http.NodesRequester;
+import com.ftn.informatika.agents.config.AgentsReader;
 import com.ftn.informatika.agents.config.ConfigurationLocal;
+import com.ftn.informatika.agents.environment.AgentsLocal;
 import com.ftn.informatika.agents.environment.model.AgentCenter;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +14,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Collections;
 
 /**
  * @author - Srđan Milaković
@@ -28,6 +32,8 @@ public class StartupBeanLocal implements StartupLocal {
     private ConfigurationLocal configurationDbBean;
     @EJB
     private NodesDbLocal nodesDbBean;
+    @EJB
+    private AgentsLocal agentsBean;
 
     @PostConstruct
     public void postConstruct() {
@@ -68,16 +74,15 @@ public class StartupBeanLocal implements StartupLocal {
         }
         System.out.println("Host Name: " + hostName);
 
-        configurationDbBean.setAgentCenter(new AgentCenter(localAddress, hostName));
+        AgentCenter agentCenter = new AgentCenter(localAddress, hostName);
+        configurationDbBean.setAgentCenter(agentCenter);
+        agentsBean.addClasses(AgentsReader.getAgentsList());
 
         if (!configurationDbBean.isMaster()) {
-            registerToMaster();
+            new NodesRequester(masterAddress).addNodes(Collections.singletonList(agentCenter));
         }
     }
 
-    private void registerToMaster() {
-
-    }
 
     @PreDestroy
     public void preDestroy() {

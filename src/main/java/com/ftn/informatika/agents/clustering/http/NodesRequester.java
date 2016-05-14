@@ -11,15 +11,21 @@ import java.util.List;
  */
 public class NodesRequester {
 
-    public static void addNodes(String destinationAddress, List<AgentCenter> agentCenters) {
-        createEndpoint(destinationAddress).addNodes(agentCenters);
+    private String destinationAddress;
+
+    public NodesRequester(String destinationAddress) {
+        this.destinationAddress = destinationAddress;
     }
 
-    public static void removeNode(String destinationAddress, String alias) {
-        createEndpoint(destinationAddress).deleteNode(alias);
+    public void addNodes(List<AgentCenter> agentCenters) {
+        createEndpoint().addNodes(agentCenters);
     }
 
-    private static NodesEndpointREST createEndpoint(String destinationAddress) {
+    public void removeNode(String alias) {
+        createEndpoint().deleteNode(alias);
+    }
+
+    private NodesEndpointREST createEndpoint() {
         String url = String.format(ApplicationConfig.APPLICATION_URL, destinationAddress);
         return new ResteasyClientBuilder().build().target(url).proxy(NodesEndpointREST.class);
     }

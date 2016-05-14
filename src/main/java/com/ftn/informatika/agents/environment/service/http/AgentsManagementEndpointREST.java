@@ -1,11 +1,13 @@
 package com.ftn.informatika.agents.environment.service.http;
 
 import com.ftn.informatika.agents.environment.model.AID;
+import com.ftn.informatika.agents.environment.model.AgentType;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author - Srđan Milaković
@@ -14,7 +16,7 @@ import java.util.List;
 public interface AgentsManagementEndpointREST {
     @POST
     @Path("/classes")
-    Object addClasses(AgentTypesRequest request);
+    Object addClasses(Map<String, List<AgentType>> classes);
 
     @POST
     @Path("/running")
@@ -22,7 +24,7 @@ public interface AgentsManagementEndpointREST {
 
     @DELETE
     @Path("/classes")
-    Object removeClasses(AgentTypesRequest request);
+    Object removeClasses(Map<String, List<AgentType>> classes);
 
     @DELETE
     @Path("/running")

@@ -1,7 +1,12 @@
 package com.ftn.informatika.agents.clustering;
 
 import com.ftn.informatika.agents.config.ConfigurationLocal;
+import com.ftn.informatika.agents.environment.AgentsLocal;
+import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.AgentCenter;
+import com.ftn.informatika.agents.environment.model.AgentType;
+import com.ftn.informatika.agents.environment.service.http.AgentsManagementRequester;
+import com.ftn.informatika.agents.environment.service.http.AgentsRequester;
 import com.ftn.informatika.agents.exception.AliasExistsException;
 import com.ftn.informatika.agents.exception.AliasNotExistsException;
 
@@ -19,6 +24,8 @@ public class NodesManagementBeanLocal implements NodesManagementLocal {
     private NodesDbLocal nodesDbBean;
     @EJB
     private ConfigurationLocal configurationBean;
+    @EJB
+    private AgentsLocal agentsBean;
 
     @Override
     public void registerNodes(List<AgentCenter> agentCenters) throws AliasExistsException {
@@ -28,8 +35,24 @@ public class NodesManagementBeanLocal implements NodesManagementLocal {
                 return;
             }
 
-            AgentCenter agentCenter = agentCenters.get(0);
-            nodesDbBean.addNode(agentCenter);
+            AgentCenter newAgentCenter = agentCenters.get(0);
+            AgentsRequester agentsRequester = new AgentsRequester(newAgentCenter.getAddress());
+            List<AgentType> agentTypes = agentsRequester.getClasses();
+            List<AID> agents = agentsRequester.getRunning();
+
+
+            try {
+                for (AgentCenter agentCenter : nodesDbBean.getNodes()) {
+                    AgentsManagementRequester requester = new AgentsManagementRequester(agentCenter.getAddress());
+                    requester.addClasses(newAgentCenter, agentTypes);
+                    requester.addRunning(agents);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            AgentsManagementRequester requester = new AgentsManagementRequester(newAgentCenter.getAddress());
+            nodesDbBean.addNode(newAgentCenter);
 
         } else {
             agentCenters.forEach(ac -> {
