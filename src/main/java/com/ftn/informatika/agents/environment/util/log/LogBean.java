@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.web_client.util.log;
+package com.ftn.informatika.agents.environment.util.log;
 
 import javax.ejb.Singleton;
 
