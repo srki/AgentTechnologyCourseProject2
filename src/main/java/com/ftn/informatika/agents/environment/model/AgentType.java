@@ -18,6 +18,11 @@ public class AgentType {
         module = agentType.getModule();
     }
 
+    public <T> AgentType(Class<T> c) {
+        module = c.getPackage().getName();
+        name = c.getSimpleName();
+    }
+
     public AgentType(String name, String module) {
         this.name = name;
         this.module = module;
