@@ -15,7 +15,7 @@ import java.util.Map;
  */
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 @Singleton
-public class AgentsBeanLocal implements AgentsLocal {
+public class AgentsBean implements AgentsLocal {
     private List<AgentType> localTypes = new ArrayList<>();
     private HashMap<String, List<AgentType>> remoteTypes = new HashMap<>();
 

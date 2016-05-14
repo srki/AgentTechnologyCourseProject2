@@ -10,7 +10,7 @@ import java.util.List;
  * @author - Srđan Milaković
  */
 @Stateless
-public class MessagesBeanLocal implements MessagesLocal {
+public class MessagesBean implements MessagesLocal {
     @Override
     public void sendMessage(ACLMessage message) {
     }

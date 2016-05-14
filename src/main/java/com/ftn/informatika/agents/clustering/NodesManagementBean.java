@@ -20,7 +20,7 @@ import java.util.List;
  * @author Srđan Milaković
  */
 @Stateless
-public class NodesManagementBeanLocal implements NodesManagementLocal {
+public class NodesManagementBean implements NodesManagementLocal {
     @EJB
     private NodesDbLocal nodesDbBean;
     @EJB

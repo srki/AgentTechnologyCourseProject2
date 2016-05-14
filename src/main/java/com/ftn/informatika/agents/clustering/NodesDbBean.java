@@ -14,7 +14,7 @@ import java.util.Map;
  */
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 @Singleton
-public class NodesDbBeanLocal implements NodesDbLocal {
+public class NodesDbBean implements NodesDbLocal {
     private Map<String, AgentCenter> nodes = new HashMap<>();
 
     @Lock(LockType.WRITE)

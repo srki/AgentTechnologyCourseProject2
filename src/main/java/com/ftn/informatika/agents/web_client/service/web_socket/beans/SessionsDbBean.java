@@ -15,7 +15,7 @@ import java.util.List;
  */
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 @Singleton
-public class SessionsDbBeanLocal implements SessionsDbLocal {
+public class SessionsDbBean implements SessionsDbLocal {
 
     private HashMap<String, Session> sessions = new HashMap<>();
 
@@ -44,7 +44,7 @@ public class SessionsDbBeanLocal implements SessionsDbLocal {
             try {
                 s.getBasicRemote().sendText(new Gson().toJson(packet));
             } catch (IOException e) {
-                System.err.println(SessionsDbBeanLocal.class.getName() + " WebSocket exception: " + e.getMessage());
+                System.err.println(SessionsDbBean.class.getName() + " WebSocket exception: " + e.getMessage());
             }
         });
     }

@@ -22,7 +22,7 @@ import java.util.Collections;
  */
 @Startup
 @Singleton
-public class StartupBeanLocal implements StartupLocal {
+public class StartupBean implements StartupLocal {
     private static final int DEFAULT_PORT = 8080;
     private static final String MASTER_ADDRESS_KEY = "master";
     private static final String LOCAL_ADDRESS_KEY = "local";

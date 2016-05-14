@@ -14,7 +14,7 @@ import java.util.List;
  */
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 @Singleton
-public class StreamBeanLocal implements StreamLocal {
+public class StreamBean implements StreamLocal {
 
     private List<MessageTuple> messages = new ArrayList<>();
     @EJB

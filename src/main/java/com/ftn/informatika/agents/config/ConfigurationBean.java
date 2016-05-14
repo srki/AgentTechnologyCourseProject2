@@ -9,7 +9,7 @@ import javax.ejb.*;
  */
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 @Singleton
-public class ConfigurationBeanLocal implements ConfigurationLocal {
+public class ConfigurationBean implements ConfigurationLocal {
     private String masterAddress;
     private AgentCenter agentCenter;
 
