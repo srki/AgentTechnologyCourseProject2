@@ -10,9 +10,10 @@ import java.util.List;
  * @author - Srđan Milaković
  */
 @Stateless
-public class MessagesBean implements MessagesLocal {
+public class MessagesBean implements MessagesLocal, MessagesRemote {
     @Override
     public void sendMessage(ACLMessage message) {
+        // TODO: send JMS message
     }
 
     @Override

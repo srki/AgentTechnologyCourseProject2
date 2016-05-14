@@ -38,6 +38,14 @@
                                 case 'LOG':
                                     $scope.logs.push(response.data[msg]);
                                     break;
+                                case "ADD_CLASS":
+                                    break;
+                                case "REMOVE_CLASS":
+                                    break;
+                                case "ADD_AGENT":
+                                    break;
+                                case "REMOVE_AGENT":
+                                    break;
                             }
                         }
                     }));
@@ -88,6 +96,16 @@
                     controller: 'NewAgentModalCtrl',
                     scope: scope
                 });
+            };
+
+            $scope.stopAgent = function (aid) {
+                consoleService.stopAgent(aid,
+                    function (response) {
+
+                    },
+                    function (response) {
+                        $scope.alertMessage = "Error: " + response.data.message;
+                    });
             };
 
             $scope.newMessage = function (aid) {

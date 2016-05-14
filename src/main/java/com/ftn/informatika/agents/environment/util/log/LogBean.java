@@ -7,7 +7,7 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
 @Singleton
-public class LogBean implements LogLocal {
+public class LogBean implements LogLocal, LogRemote {
 
     @EJB
     private StreamLocal streamBean;

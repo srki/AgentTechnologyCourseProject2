@@ -6,8 +6,6 @@ import javax.ejb.Local;
  * @author - Srđan Milaković
  */
 @Local
-public interface LogLocal {
-    void info(String message);
+public interface LogLocal extends LogRemote {
 
-    void error(String message);
 }

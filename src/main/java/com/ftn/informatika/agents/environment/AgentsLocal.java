@@ -13,7 +13,7 @@ import java.util.Map;
  * @author - Srđan Milaković
  */
 @Local
-public interface AgentsLocal {
+public interface AgentsLocal extends AgentsRemote {
     // Agent classes
     List<AgentType> getLocalClasses();
 
@@ -36,10 +36,4 @@ public interface AgentsLocal {
 
     void removeRunningAgentsFromNode(String alias);
 
-    // Agent run/stop/get
-    AID runAgent(AgentType agentType, String name);
-
-    AID stopAgent(AID aid);
-
-    Agent getAgent(AID aid);
 }

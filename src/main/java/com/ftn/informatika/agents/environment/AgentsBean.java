@@ -16,7 +16,7 @@ import java.util.Map;
  */
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 @Singleton
-public class AgentsBean implements AgentsLocal {
+public class AgentsBean implements AgentsLocal, AgentsRemote {
 
     @EJB
     private ConfigurationLocal configurationBean;

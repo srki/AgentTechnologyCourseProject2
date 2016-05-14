@@ -97,6 +97,11 @@
                 setStreamListeners: function (success, error) {
                     addSuccessListener('STREAM_MESSAGES', success);
                     addErrorListener('STREAM_MESSAGES', error);
+
+                    return function () {
+                        delete successListeners['STREAM_MESSAGES'];
+                        delete errorListeners['STREAM_MESSAGES'];
+                    }
                 }
             };
         });
