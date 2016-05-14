@@ -42,16 +42,20 @@
                     <table class="table">
                         <tr>
                             <th class="purple">Name</th>
-                            <th class="purple">Host</th>
                             <th class="purple">Type</th>
+                            <th class="purple">Host</th>
+                            <th style="width: 45px"></th>
                             <th style="width: 45px"></th>
                         </tr>
                         <tr ng-repeat="agent in runningAgents">
                             <td class="green">{{agent.name}}</td>
                             <td>{{agent.type.name}}</td>
-                            <td>{{agent.host.alias}}</td>
+                            <td class="red">{{agent.host.alias}}</td>
                             <td class="clickable ta-mid" ng-click="newMessage(agent)">
                                 <span class="glyphicon glyphicon-envelope yellow"></span>
+                            </td>
+                            <td class="clickable ta-mid" ng-click="stopAgent(agent)">
+                                <span class="glyphicon glyphicon-stop yellow"></span>
                             </td>
                         </tr>
                     </table>

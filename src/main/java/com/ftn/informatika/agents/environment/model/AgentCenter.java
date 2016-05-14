@@ -39,7 +39,6 @@ public class AgentCenter {
         AgentCenter that = (AgentCenter) o;
 
         return alias != null ? alias.equals(that.alias) : that.alias == null;
-
     }
 
     @Override
