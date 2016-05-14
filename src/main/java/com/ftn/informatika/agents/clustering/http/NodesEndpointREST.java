@@ -22,5 +22,5 @@ public interface NodesEndpointREST {
 
     @Path("/{alias}")
     @DELETE
-    Object deleteNode(@PathParam("alias") String alias);
+    Object removeNode(@PathParam("alias") String alias);
 }

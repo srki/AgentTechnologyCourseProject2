@@ -20,12 +20,12 @@ public class AgentsREST implements AgentsEndpointREST {
 
     @Override
     public List<AgentType> getClasses() {
-        return agentsBean.getClasses();
+        return agentsBean.getLocalClasses();
     }
 
     @Override
     public List<AID> getRunning() {
-        return agentsBean.getAllRunningAgents();
+        return agentsBean.getRunningAgents();
     }
 
     @Override

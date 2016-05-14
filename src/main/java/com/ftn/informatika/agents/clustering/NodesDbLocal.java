@@ -13,7 +13,7 @@ import java.util.List;
 public interface NodesDbLocal {
     void addNode(AgentCenter agentCenter) throws AliasExistsException;
 
-    void removeNode(AgentCenter agentCenter);
+    void removeNode(String alias);
 
     boolean containsNode(AgentCenter agentCenter);
 

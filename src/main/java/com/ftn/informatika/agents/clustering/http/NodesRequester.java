@@ -22,7 +22,7 @@ public class NodesRequester {
     }
 
     public void removeNode(String alias) {
-        createEndpoint().deleteNode(alias);
+        createEndpoint().removeNode(alias);
     }
 
     private NodesEndpointREST createEndpoint() {

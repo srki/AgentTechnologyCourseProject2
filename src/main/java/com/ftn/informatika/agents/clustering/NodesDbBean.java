@@ -29,8 +29,8 @@ public class NodesDbBean implements NodesDbLocal {
 
     @Lock(LockType.WRITE)
     @Override
-    public void removeNode(AgentCenter agentCenter) {
-        nodes.remove(agentCenter.getAlias());
+    public void removeNode(String alias) {
+        nodes.remove(alias);
     }
 
     @Lock(LockType.READ)

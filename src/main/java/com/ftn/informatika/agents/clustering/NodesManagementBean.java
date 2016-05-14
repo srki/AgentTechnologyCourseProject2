@@ -8,7 +8,6 @@ import com.ftn.informatika.agents.environment.model.AgentType;
 import com.ftn.informatika.agents.environment.service.http.AgentsManagementRequester;
 import com.ftn.informatika.agents.environment.service.http.AgentsRequester;
 import com.ftn.informatika.agents.exception.AliasExistsException;
-import com.ftn.informatika.agents.exception.AliasNotExistsException;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -36,11 +35,11 @@ public class NodesManagementBean implements NodesManagementLocal {
                 return;
             }
 
+            // Get classes from new node
             AgentCenter newAgentCenter = agentCenters.get(0);
-            AgentsRequester agentsRequester = new AgentsRequester(newAgentCenter.getAddress());
+            List<AgentType> agentTypes = new AgentsRequester(newAgentCenter.getAddress()).getClasses();
 
-            List<AgentType> agentTypes = agentsRequester.getClasses();
-
+            // Send new classes to other nodes
             try {
                 for (AgentCenter agentCenter : nodesDbBean.getNodes()) {
                     if (configurationBean.getAlias().equals(agentCenter.getAlias())) {
@@ -53,13 +52,15 @@ public class NodesManagementBean implements NodesManagementLocal {
                 e.printStackTrace();
             }
 
+            // Deliver all nodes to the new node
+            nodesDbBean.addNode(newAgentCenter);
             new NodesRequester(newAgentCenter.getAddress()).addNodes(nodesDbBean.getNodes());
 
+            // Deliver all classes and running agents to the new node
             AgentsManagementRequester requester = new AgentsManagementRequester(newAgentCenter.getAddress());
-            requester.addClasses(agentsBean.getAllClasses());
-            requester.addRunning(agentsBean.getAllRunningAgents());
+            requester.addClasses(agentsBean.getClasses());
+            requester.addRunning(agentsBean.getRunningAgents());
 
-            nodesDbBean.addNode(newAgentCenter);
             System.out.println(newAgentCenter.getAlias() + " registered to " + configurationBean.getAlias());
         } else {
             agentCenters.forEach(agentCenter -> {
@@ -75,7 +76,19 @@ public class NodesManagementBean implements NodesManagementLocal {
     }
 
     @Override
-    public void removeNode(String alias) throws AliasNotExistsException {
+    public void removeNode(String alias) {
+        System.out.println(alias + " removed from " + configurationBean.getAlias());
+        nodesDbBean.removeNode(alias);
+        agentsBean.removeClasses(alias, null);
+        agentsBean.removeRunningAgentsFromNode(alias);
+
+        if (configurationBean.isMaster()) {
+            nodesDbBean.getNodes().forEach(node -> {
+                if (!configurationBean.getAgentCenter().equals(node)) {
+                    new NodesRequester(node.getAddress()).removeNode(alias);
+                }
+            });
+        }
 
     }
 }

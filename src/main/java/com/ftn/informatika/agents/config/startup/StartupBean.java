@@ -36,9 +36,12 @@ public class StartupBean implements StartupLocal {
     @EJB
     private AgentsLocal agentsBean;
 
+    private String masterAddress;
+    private String alias;
+
     @PostConstruct
     public void postConstruct() {
-        String masterAddress = System.getProperty(MASTER_ADDRESS_KEY);
+        masterAddress = System.getProperty(MASTER_ADDRESS_KEY);
         if (masterAddress == null) {
             System.out.println("This is master node!");
         } else {
@@ -64,18 +67,18 @@ public class StartupBean implements StartupLocal {
         System.out.println("Local IPv4 Address: " + localAddress);
 
         // Get alias
-        String hostName = System.getProperty(ALIAS_KEY);
-        if (hostName == null) {
+        alias = System.getProperty(ALIAS_KEY);
+        if (alias == null) {
             try {
                 InetAddress local = InetAddress.getLocalHost();
-                hostName = local.getHostName();
+                alias = local.getHostName();
             } catch (UnknownHostException e) {
                 System.err.println("Can't read Host Name.");
             }
         }
-        System.out.println("Host Name: " + hostName);
+        System.out.println("Host Name: " + alias);
 
-        AgentCenter agentCenter = new AgentCenter(localAddress, hostName);
+        AgentCenter agentCenter = new AgentCenter(localAddress, alias);
         configurationDbBean.setAgentCenter(agentCenter);
         agentsBean.addClasses(AgentsReader.getAgentsList());
 
@@ -83,7 +86,7 @@ public class StartupBean implements StartupLocal {
         if (!configurationDbBean.isMaster()) {
             new Thread(() -> {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -101,7 +104,9 @@ public class StartupBean implements StartupLocal {
 
     @PreDestroy
     public void preDestroy() {
-        // TODO: Unregister if not master
+        if (masterAddress != null) {
+            new NodesRequester(masterAddress).removeNode(alias);
+        }
     }
 
 }

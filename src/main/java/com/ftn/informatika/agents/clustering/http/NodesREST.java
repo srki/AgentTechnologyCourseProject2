@@ -34,7 +34,8 @@ public class NodesREST implements NodesEndpointREST {
     }
 
     @Override
-    public Object deleteNode(String alias) {
-        return null;
+    public Object removeNode(String alias) {
+        nodesManagementBean.removeNode(alias);
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 }

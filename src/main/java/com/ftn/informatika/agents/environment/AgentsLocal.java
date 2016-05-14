@@ -14,9 +14,10 @@ import java.util.Map;
  */
 @Local
 public interface AgentsLocal {
-    List<AgentType> getClasses();
+    // Agent classes
+    List<AgentType> getLocalClasses();
 
-    HashMap<String, List<AgentType>> getAllClasses();
+    HashMap<String, List<AgentType>> getClasses();
 
     void addClasses(List<AgentType> types);
 
@@ -24,14 +25,18 @@ public interface AgentsLocal {
 
     void removeClasses(String alias, List<AgentType> types);
 
-    Map<AID, Agent> getRunningAgents();
+    // Running agents
+    Map<AID, Agent> getLocalRunningAgents();
 
-    List<AID> getAllRunningAgents();
+    List<AID> getRunningAgents();
 
     void addRunningAgents(List<AID> agents);
 
     void removeRunningAgents(List<AID> agents);
 
+    void removeRunningAgentsFromNode(String alias);
+
+    // Agent run/stop/get
     AID runAgent(AgentType agentType, String name);
 
     AID stopAgent(AID aid);
