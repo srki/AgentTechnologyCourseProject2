@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.web_client.util.stream;
+package com.ftn.informatika.agents.web_client.util;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

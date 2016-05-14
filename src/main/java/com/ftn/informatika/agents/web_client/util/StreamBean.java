@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.web_client.util.stream;
+package com.ftn.informatika.agents.web_client.util;
 
 import com.ftn.informatika.agents.web_client.service.web_socket.beans.SessionsDbLocal;
 import com.ftn.informatika.agents.web_client.service.web_socket.model.WebSocketPacket;

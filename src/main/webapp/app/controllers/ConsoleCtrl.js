@@ -35,7 +35,7 @@
                             }
 
                             switch (response.data[msg].type) {
-                                case 'STREAM_MESSAGES':
+                                case 'LOG':
                                     $scope.logs.push(response.data[msg]);
                                     break;
                             }

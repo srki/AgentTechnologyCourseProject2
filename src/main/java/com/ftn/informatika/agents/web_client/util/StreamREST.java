@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.web_client.util.stream;
+package com.ftn.informatika.agents.web_client.util;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.web_client.util.stream;
+package com.ftn.informatika.agents.web_client.util;
 
 import java.util.Date;
 
@@ -6,25 +6,24 @@ import java.util.Date;
  * @author - Srđan Milaković
  */
 public class StreamMessage {
-    private String type;
+    private MessageType type;
     private Object content;
     private long date;
-
     public StreamMessage() {
         this.date = new Date().getTime();
     }
 
-    public StreamMessage(String type, Object content) {
+    public StreamMessage(MessageType type, Object content) {
         this();
         this.type = type;
         this.content = content;
     }
 
-    public String getType() {
+    public MessageType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(MessageType type) {
         this.type = type;
     }
 
@@ -42,5 +41,13 @@ public class StreamMessage {
 
     public void setDate(long date) {
         this.date = date;
+    }
+
+    public enum MessageType {
+        LOG,
+        ADD_CLASS,
+        REMOVE_CLASS,
+        ADD_AGENT,
+        REMOVE_AGENT
     }
 }
