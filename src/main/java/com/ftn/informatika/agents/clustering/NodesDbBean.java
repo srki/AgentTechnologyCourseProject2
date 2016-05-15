@@ -1,7 +1,7 @@
 package com.ftn.informatika.agents.clustering;
 
+import com.ftn.informatika.agents.clustering.exception.AliasExistsException;
 import com.ftn.informatika.agents.environment.model.AgentCenter;
-import com.ftn.informatika.agents.exception.AliasExistsException;
 
 import javax.ejb.*;
 import java.util.ArrayList;

@@ -1,9 +1,11 @@
 package com.ftn.informatika.agents.environment.model;
 
+import java.io.Serializable;
+
 /**
  * @author - Srđan Milaković
  */
-public class AgentCenter {
+public class AgentCenter implements Serializable {
     private String address;
     private String alias;
 

@@ -23,4 +23,8 @@ public interface NodesEndpointREST {
     @Path("/{alias}")
     @DELETE
     Object removeNode(@PathParam("alias") String alias);
+
+    @Path("/list")
+    @GET
+    List<AgentCenter> getAgentCenters();
 }

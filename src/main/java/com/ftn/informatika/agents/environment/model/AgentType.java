@@ -2,10 +2,12 @@ package com.ftn.informatika.agents.environment.model;
 
 import com.google.gson.Gson;
 
+import java.io.Serializable;
+
 /**
  * @author - Srđan Milaković
  */
-public class AgentType {
+public class AgentType implements Serializable {
     private String name;
     private String module;
 

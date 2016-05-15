@@ -67,7 +67,9 @@
     <div class="log container">
         <div class="row">
             <div class="col-md-6">
-                <div class="header">Log</div>
+                <div class="header">
+                    Log&nbsp;<span class="glyphicon glyphicon-trash clickable" ng-click="clearLog()"></span>
+                </div>
                 <div class="content">
                     <div ng-repeat="log in logs">
                         <span class="green">{{log.date | date:'mediumTime'}}</span>

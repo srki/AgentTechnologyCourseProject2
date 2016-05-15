@@ -25,8 +25,9 @@ public interface AgentsEndpointREST {
 
     @PUT
     @Path("/running/{type}/{name}")
-    AID runAgent(@PathParam("type") AgentType type, @PathParam("name") String name);
+    Object runAgent(@PathParam("type") AgentType type, @PathParam("name") String name);
 
     @DELETE
-    AID stopAgent(@PathParam("aid") AID aid);
+    @Path("/{aid}")
+    Object stopAgent(@PathParam("aid") AID aid);
 }

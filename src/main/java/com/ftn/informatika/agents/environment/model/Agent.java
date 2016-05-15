@@ -1,12 +1,11 @@
 package com.ftn.informatika.agents.environment.model;
 
 import com.ftn.informatika.agents.environment.AgentsRemote;
-import com.ftn.informatika.agents.environment.MessagesRemote;
+import com.ftn.informatika.agents.environment.messages.MessagesRemote;
 import com.ftn.informatika.agents.environment.model.remote.RemoteAgent;
 import com.ftn.informatika.agents.environment.util.factory.ManagerFactory;
-import com.ftn.informatika.agents.environment.util.log.LogBean;
+import com.ftn.informatika.agents.environment.util.log.LogRemote;
 
-import javax.ejb.EJB;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 
@@ -20,14 +19,15 @@ import javax.ejb.LockType;
 @Lock(LockType.READ)
 public abstract class Agent implements RemoteAgent {
 
-    protected AID myAid;
+    protected AID aid;
 
-    private AgentsRemote agm;
-    private MessagesRemote msm;
+    private LogRemote logManager;
+    private AgentsRemote agentManager;
+    private MessagesRemote messageManager;
 
     @Override
     public void init(AID aid) {
-        myAid = aid;
+        this.aid = aid;
     }
 
     @Override
@@ -176,23 +176,35 @@ public abstract class Agent implements RemoteAgent {
         return false;
     }
 
-    public AID getId() {
-        return myAid;
+    public AID getAid() {
+        return aid;
     }
 
     public void setId(AID myAid) {
-        this.myAid = myAid;
+        this.aid = myAid;
     }
 
-    protected AgentsRemote agm() {
-        if (agm == null)
-            agm = ManagerFactory.getAgentManager();
-        return agm;
+    protected AgentsRemote getAgentManager() {
+        if (agentManager == null) {
+            agentManager = ManagerFactory.getAgentManager();
+        }
+
+        return agentManager;
     }
 
-    protected MessagesRemote msm() {
-        if (msm == null)
-            msm = ManagerFactory.getMessagesManager();
-        return msm;
+    protected MessagesRemote getMessageManager() {
+        if (messageManager == null) {
+            messageManager = ManagerFactory.getMessagesManager();
+        }
+
+        return messageManager;
+    }
+
+    protected LogRemote getLogManager() {
+        if (logManager == null) {
+            logManager = ManagerFactory.getLogManager();
+        }
+
+        return logManager;
     }
 }

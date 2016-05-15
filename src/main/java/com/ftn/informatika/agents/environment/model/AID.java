@@ -2,10 +2,12 @@ package com.ftn.informatika.agents.environment.model;
 
 import com.google.gson.Gson;
 
+import java.io.Serializable;
+
 /**
  * @author - Srđan Milaković
  */
-public class AID {
+public class AID implements Serializable {
     private String name;
     private AgentCenter host;
     private AgentType type;
@@ -69,5 +71,10 @@ public class AID {
         result = 31 * result + (host != null ? host.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

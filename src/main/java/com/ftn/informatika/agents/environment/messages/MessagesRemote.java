@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.environment;
+package com.ftn.informatika.agents.environment.messages;
 
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 

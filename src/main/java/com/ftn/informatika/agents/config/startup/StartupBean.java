@@ -1,12 +1,12 @@
 package com.ftn.informatika.agents.config.startup;
 
 import com.ftn.informatika.agents.clustering.NodesDbLocal;
+import com.ftn.informatika.agents.clustering.exception.AliasExistsException;
 import com.ftn.informatika.agents.clustering.http.NodesRequester;
 import com.ftn.informatika.agents.config.AgentsReader;
 import com.ftn.informatika.agents.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.AgentsLocal;
 import com.ftn.informatika.agents.environment.model.AgentCenter;
-import com.ftn.informatika.agents.exception.AliasExistsException;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -86,7 +86,7 @@ public class StartupBean implements StartupLocal {
         if (!configurationDbBean.isMaster()) {
             new Thread(() -> {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

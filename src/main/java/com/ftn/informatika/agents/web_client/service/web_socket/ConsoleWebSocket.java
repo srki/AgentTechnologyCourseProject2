@@ -1,9 +1,11 @@
 package com.ftn.informatika.agents.web_client.service.web_socket;
 
+import com.ftn.informatika.agents.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.AgentsLocal;
-import com.ftn.informatika.agents.environment.MessagesLocal;
+import com.ftn.informatika.agents.environment.messages.MessagesLocal;
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 import com.ftn.informatika.agents.environment.model.AID;
+import com.ftn.informatika.agents.environment.service.http.AgentsRequester;
 import com.ftn.informatika.agents.web_client.service.web_socket.beans.SessionsDbLocal;
 import com.ftn.informatika.agents.web_client.service.web_socket.model.RunAgentRequest;
 import com.ftn.informatika.agents.web_client.service.web_socket.model.WebSocketPacket;
@@ -28,6 +30,8 @@ public class ConsoleWebSocket {
     private MessagesLocal messagesBean;
     @EJB
     private SessionsDbLocal sessionsBean;
+    @EJB
+    private ConfigurationLocal configurationBean;
 
     @OnMessage
     public void onMessage(String message, Session session) {
@@ -97,8 +101,12 @@ public class ConsoleWebSocket {
     }
 
     private void handleStopAgent(String data, Session session) throws IOException {
-        AID aid = agentsBean.stopAgent(new Gson().fromJson(data, AID.class));
-        createAndSendPackage(session, WebSocketPacket.Type.STOP_AGENT, aid);
+        AID aid = new Gson().fromJson(data, AID.class);
+        if (!configurationBean.getAgentCenter().equals(aid.getHost())) {
+            new AgentsRequester(aid.getHost().getAddress()).stopAgent(aid);
+        } else {
+            agentsBean.stopAgent(aid);
+        }
     }
 
     private void handleSendMessage(String data, Session session) throws IOException {

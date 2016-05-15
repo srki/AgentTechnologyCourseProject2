@@ -1,6 +1,6 @@
 package com.ftn.informatika.agents.web_client.service.http;
 
-import com.ftn.informatika.agents.environment.MessagesLocal;
+import com.ftn.informatika.agents.environment.messages.MessagesLocal;
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 import com.ftn.informatika.agents.web_client.service.http.endpoint_interface.MessagesEndpointREST;
 

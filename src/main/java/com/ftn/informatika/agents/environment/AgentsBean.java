@@ -1,9 +1,11 @@
 package com.ftn.informatika.agents.environment;
 
+import com.ftn.informatika.agents.clustering.NodesDbLocal;
 import com.ftn.informatika.agents.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.Agent;
 import com.ftn.informatika.agents.environment.model.AgentType;
+import com.ftn.informatika.agents.environment.service.http.AgentsManagementRequester;
 import com.ftn.informatika.agents.web_client.util.StreamLocal;
 import com.ftn.informatika.agents.web_client.util.StreamMessage;
 
@@ -21,6 +23,8 @@ public class AgentsBean implements AgentsLocal, AgentsRemote {
     private ConfigurationLocal configurationBean;
     @EJB
     private StreamLocal streamBean;
+    @EJB
+    private NodesDbLocal nodesDbBean;
 
     private List<AgentType> localTypes = new ArrayList<>();
     private HashMap<String, List<AgentType>> allTypes = new HashMap<>();
@@ -105,14 +109,14 @@ public class AgentsBean implements AgentsLocal, AgentsRemote {
     @Override
     public void addRunningAgents(List<AID> agents) {
         allAgents.addAll(agents);
-        sendClassesToStream();
+        sendAgentsToStream();
     }
 
     @Lock(LockType.WRITE)
     @Override
     public void removeRunningAgents(List<AID> agents) {
         allAgents.removeAll(agents);
-        sendClassesToStream();
+        sendAgentsToStream();
     }
 
     @Lock(LockType.WRITE)
@@ -127,23 +131,40 @@ public class AgentsBean implements AgentsLocal, AgentsRemote {
         });
 
         allAgents.removeAll(removeList);
-        sendClassesToStream();
+        sendAgentsToStream();
     }
 
     @Lock(LockType.WRITE)
     @Override
     public AID runAgent(AgentType agentType, String name) {
-        // TODO: implement
-        sendAgentsToStream();
-        return null;
+        // TODO: implement test case when local server does not contain agentType
+        // TODO: implement name unique constrain
+        Agent agent = agentType.createInstance(name, configurationBean.cloneAgentCenter());
+        localAgents.put(agent.getAid(), agent);
+        addRunningAgents(Collections.singletonList(agent.getAid()));
+
+        nodesDbBean.getNodes().forEach(node -> {
+            if (!configurationBean.getAgentCenter().equals(node)) {
+                new AgentsManagementRequester(node.getAddress()).addRunning(Collections.singletonList(agent.getAid()));
+            }
+        });
+
+        return agent.getAid();
     }
 
     @Lock(LockType.WRITE)
     @Override
-    public AID stopAgent(AID aid) {
-        // TODO: implement
+    public void stopAgent(AID aid) {
+        localAgents.remove(aid);
+        removeRunningAgents(Collections.singletonList(aid));
+
+        nodesDbBean.getNodes().forEach(node -> {
+            if (!configurationBean.getAgentCenter().equals(node)) {
+                new AgentsManagementRequester(node.getAddress()).removeRunning(Collections.singletonList(aid));
+            }
+        });
+
         sendAgentsToStream();
-        return null;
     }
 
     @Override
@@ -156,6 +177,6 @@ public class AgentsBean implements AgentsLocal, AgentsRemote {
     }
 
     private void sendAgentsToStream() {
-        streamBean.sendMessage(new StreamMessage(StreamMessage.MessageType.AGENTS, getLocalRunningAgents()));
+        streamBean.sendMessage(new StreamMessage(StreamMessage.MessageType.AGENTS, getRunningAgents()));
     }
 }

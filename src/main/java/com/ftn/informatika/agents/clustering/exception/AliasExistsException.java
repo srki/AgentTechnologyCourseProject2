@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.exception;
+package com.ftn.informatika.agents.clustering.exception;
 
 /**
  * @author Dragan Vidakovic

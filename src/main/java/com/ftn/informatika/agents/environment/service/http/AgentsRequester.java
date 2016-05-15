@@ -27,6 +27,10 @@ public class AgentsRequester {
         return createEndpoint().getRunning();
     }
 
+    public void stopAgent(AID aid) {
+        createEndpoint().stopAgent(aid);
+    }
+
     private AgentsEndpointREST createEndpoint() {
         String url = String.format(ApplicationConfig.APPLICATION_URL, destinationAddress);
         return new ResteasyClientBuilder().build().target(url).proxy(AgentsEndpointREST.class);

@@ -61,25 +61,6 @@
                     consoleService.getRunning(function (response) {
                         Array.prototype.push.apply($scope.runningAgents, response.data);
                     }, errorCallback);
-
-                    for (var i = 0; i < 10; i++) {
-                        $scope.agentTypes.push({
-                            module: 'rs.ac.uns.ftn.informatika.agents',
-                            name: 'ping' + (i + 1)
-                        });
-
-                        $scope.runningAgents.push({
-                            name: 'Agent 00' + i,
-                            host: {
-                                address: '127.0.0.1',
-                                alias: 'localhost'
-                            },
-                            type: {
-                                module: 'rs.ac.uns.ftn.informatika.agents',
-                                name: 'ping' + (i + 1)
-                            }
-                        });
-                    }
                 };
 
             $scope.runAgent = function (type) {
@@ -103,6 +84,10 @@
                     function (response) {
                         $scope.alertMessage = "Error: " + response.data.message;
                     });
+            };
+
+            $scope.clearLog = function () {
+                $scope.logs = [];
             };
 
             $scope.newMessage = function (aid) {

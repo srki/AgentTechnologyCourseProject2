@@ -2,8 +2,8 @@ package com.ftn.informatika.agents.environment.util.factory;
 
 import com.ftn.informatika.agents.environment.AgentsBean;
 import com.ftn.informatika.agents.environment.AgentsRemote;
-import com.ftn.informatika.agents.environment.MessagesBean;
-import com.ftn.informatika.agents.environment.MessagesRemote;
+import com.ftn.informatika.agents.environment.messages.MessagesBean;
+import com.ftn.informatika.agents.environment.messages.MessagesRemote;
 import com.ftn.informatika.agents.environment.util.log.LogBean;
 import com.ftn.informatika.agents.environment.util.log.LogRemote;
 
@@ -18,7 +18,7 @@ public class ManagerFactory {
     private static final String AGENT_MANAGER_NAME = PREFIX + AgentsBean.class.getSimpleName() + "!" + AgentsRemote.class.getName();
     private static final String MESSAGES_MANAGER_NAME = PREFIX + MessagesBean.class.getSimpleName() + "!" + MessagesRemote.class.getName();
 
-    public static LogRemote getLogRemote() {
+    public static LogRemote getLogManager() {
         return contextLookup(LOG_MANAGER_NAME, LogRemote.class);
     }
 

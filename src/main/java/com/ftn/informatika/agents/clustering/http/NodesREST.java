@@ -1,8 +1,9 @@
 package com.ftn.informatika.agents.clustering.http;
 
+import com.ftn.informatika.agents.clustering.NodesDbLocal;
 import com.ftn.informatika.agents.clustering.NodesManagementLocal;
+import com.ftn.informatika.agents.clustering.exception.AliasExistsException;
 import com.ftn.informatika.agents.environment.model.AgentCenter;
-import com.ftn.informatika.agents.exception.AliasExistsException;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -14,6 +15,9 @@ import java.util.List;
  */
 @Stateless
 public class NodesREST implements NodesEndpointREST {
+
+    @EJB
+    private NodesDbLocal nodesDbBean;
     @EJB
     private NodesManagementLocal nodesManagementBean;
 
@@ -37,5 +41,10 @@ public class NodesREST implements NodesEndpointREST {
     public Object removeNode(String alias) {
         nodesManagementBean.removeNode(alias);
         return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
+    @Override
+    public List<AgentCenter> getAgentCenters() {
+        return nodesDbBean.getNodes();
     }
 }

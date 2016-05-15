@@ -13,7 +13,7 @@ import javax.ejb.Remote;
 public interface AgentsRemote {
     AID runAgent(AgentType agentType, String name);
 
-    AID stopAgent(AID aid);
+    void stopAgent(AID aid);
 
     Agent getAgent(AID aid);
 }

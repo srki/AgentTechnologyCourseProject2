@@ -1,4 +1,6 @@
-package com.ftn.informatika.agents.environment;
+package com.ftn.informatika.agents.environment.messages;
+
+import com.ftn.informatika.agents.environment.model.ACLMessage;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -9,4 +11,6 @@ import java.util.List;
 @Local
 public interface MessagesLocal extends MessagesRemote {
     List<String> getPerformatives();
+
+    void receiveMessage(ACLMessage message);
 }

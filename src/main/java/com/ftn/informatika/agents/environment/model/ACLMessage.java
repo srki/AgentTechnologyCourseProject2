@@ -1,5 +1,6 @@
 package com.ftn.informatika.agents.environment.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.Map;
 /**
  * @author - Srđan Milaković
  */
-public class ACLMessage {
+public class ACLMessage implements Serializable {
     private Performative performative;
     private AID sender;
     private List<AID> receivers;

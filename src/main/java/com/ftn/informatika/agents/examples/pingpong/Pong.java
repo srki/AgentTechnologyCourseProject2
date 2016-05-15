@@ -3,9 +3,7 @@ package com.ftn.informatika.agents.examples.pingpong;
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 import com.ftn.informatika.agents.environment.model.Agent;
 import com.ftn.informatika.agents.environment.model.remote.RemoteAgent;
-import com.ftn.informatika.agents.environment.util.log.LogLocal;
 
-import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
 
@@ -19,18 +17,15 @@ import javax.ejb.Stateful;
 @Remote(RemoteAgent.class)
 public class Pong extends Agent{
 
-    @EJB
-    private LogLocal logger;
-
     @Override
     protected boolean handleRequest(ACLMessage message) {
-        logger.info("Request to Pong: " + message);
+        getLogManager().info("Request to Pong: " + message.getContent());
 
         ACLMessage reply = new ACLMessage();
         reply.setPerformative(ACLMessage.Performative.INFORM);
         reply.getReceivers().add(message.getSender());
         reply.setContent("Reply");
-        msm().sendMessage(reply);
+        getMessageManager().sendMessage(reply);
 
         return true;
     }
