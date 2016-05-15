@@ -1,6 +1,6 @@
 package com.ftn.informatika.agents.web_client.service.web_socket;
 
-import com.ftn.informatika.agents.config.ConfigurationLocal;
+import com.ftn.informatika.agents.clustering.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.AgentsLocal;
 import com.ftn.informatika.agents.environment.messages.MessagesLocal;
 import com.ftn.informatika.agents.environment.model.ACLMessage;

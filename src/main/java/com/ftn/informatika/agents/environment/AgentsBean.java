@@ -1,7 +1,7 @@
 package com.ftn.informatika.agents.environment;
 
 import com.ftn.informatika.agents.clustering.NodesDbLocal;
-import com.ftn.informatika.agents.config.ConfigurationLocal;
+import com.ftn.informatika.agents.clustering.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.Agent;
 import com.ftn.informatika.agents.environment.model.AgentType;

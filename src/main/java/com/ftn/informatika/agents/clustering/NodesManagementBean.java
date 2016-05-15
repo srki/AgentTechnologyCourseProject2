@@ -1,8 +1,8 @@
 package com.ftn.informatika.agents.clustering;
 
+import com.ftn.informatika.agents.clustering.config.ConfigurationLocal;
 import com.ftn.informatika.agents.clustering.exception.AliasExistsException;
 import com.ftn.informatika.agents.clustering.http.NodesRequester;
-import com.ftn.informatika.agents.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.AgentsLocal;
 import com.ftn.informatika.agents.environment.model.AgentCenter;
 import com.ftn.informatika.agents.environment.model.AgentType;

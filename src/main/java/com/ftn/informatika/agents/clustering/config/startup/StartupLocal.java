@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.config.startup;
+package com.ftn.informatika.agents.clustering.config.startup;
 
 import javax.ejb.Local;
 

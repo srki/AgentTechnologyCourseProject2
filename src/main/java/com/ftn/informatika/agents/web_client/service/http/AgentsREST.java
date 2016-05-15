@@ -1,6 +1,6 @@
 package com.ftn.informatika.agents.web_client.service.http;
 
-import com.ftn.informatika.agents.config.ConfigurationLocal;
+import com.ftn.informatika.agents.clustering.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.AgentsLocal;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.AgentType;

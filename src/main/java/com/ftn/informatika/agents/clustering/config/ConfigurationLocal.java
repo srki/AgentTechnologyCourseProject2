@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.config;
+package com.ftn.informatika.agents.clustering.config;
 
 import com.ftn.informatika.agents.environment.model.AgentCenter;
 
