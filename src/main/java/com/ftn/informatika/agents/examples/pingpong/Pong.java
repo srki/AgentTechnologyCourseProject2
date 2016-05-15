@@ -24,7 +24,7 @@ public class Pong extends Agent{
         ACLMessage reply = new ACLMessage();
         reply.setPerformative(ACLMessage.Performative.INFORM);
         reply.getReceivers().add(message.getSender());
-        reply.setContent("Reply");
+        reply.setContent("Hello Ping!");
         getMessageManager().sendMessage(reply);
 
         return true;

@@ -27,6 +27,7 @@ public class Ping extends Agent {
         msgToPong.setPerformative(ACLMessage.Performative.REQUEST);
         msgToPong.setSender(aid);
         msgToPong.getReceivers().add(pongAid);
+        msgToPong.setContent("Hello Pong!");
         getMessageManager().sendMessage(msgToPong);
 
         return true;
@@ -37,7 +38,6 @@ public class Ping extends Agent {
         getLogManager().info("Inform to Ping: " + message.getContent());
 
         getLogManager().info("Ping received INFORM from Pong: " + message.getContent());
-        getLogManager().info("PingPongTest finished.");
 
         return true;
     }

@@ -4,8 +4,8 @@
  * <p>
  * 1. Ping - Pong
  * <p>
- * Test: Starts agents, sends Request to Ping agent.
- * Ping: Gets Request from Test, sends Request to Pong agent, gets Inform from Pong agent.
+ * TestPingPong: Starts Ping and Pong agent, sends Request to Ping agent.
+ * Ping: Gets Request from TestPingPong, sends Request to Pong agent, gets Inform from Pong agent.
  * Pong: Gets Request from Ping agent, sends Inform to Ping agent.
  * <p>
  * <p>
@@ -19,11 +19,11 @@
  * <p>
  * 3. Contract Net Protocol
  * <p>
- * Test: Starts Master agent, sends Request to Master agent.
- * Master: Gets Request from Test, creates Slave agents and Calls For Proposal to Slave agents.
- *         Gets Proposals or Rejects from Slave agents and selects best from sent Proposals.
+ * Test: Start ContractNetMaster agent, make Request to ContractNetMaster agent.
+ * Master: Gets Request, creates Slave agents and sends Call For Proposal to Slave agents.
+ *         Gets Proposal or Reject from Slave agents and selects best (if any).
  *         Sends Accept Proposal to best bid, and Reject Proposal to others.
  * Slave: Gets Call For Proposal from Master, decides to answer or not.
- *        If answer - sends Proposal to Master, and waits for Accept Proposal or Reject Proposal.
+ *        If answers - sends Proposal to Master, and waits for Accept Proposal or Reject Proposal.
  */
 package com.ftn.informatika.agents.examples;
