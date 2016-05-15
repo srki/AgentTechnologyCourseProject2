@@ -21,8 +21,9 @@
  * <p>
  * Test: Starts Master agent, sends Request to Master agent.
  * Master: Gets Request from Test, creates Slave agents and Calls For Proposal to Slave agents.
- * Gets bids from Slave agents and selects best. Sends Accept to best bid, and Reject to others.
+ *         Gets Proposals or Rejects from Slave agents and selects best from sent Proposals.
+ *         Sends Accept Proposal to best bid, and Reject Proposal to others.
  * Slave: Gets Call For Proposal from Master, decides to answer or not.
- * If answered, gets Accept or Reject from Master.
+ *        If answer - sends Proposal to Master, and waits for Accept Proposal or Reject Proposal.
  */
 package com.ftn.informatika.agents.examples;
