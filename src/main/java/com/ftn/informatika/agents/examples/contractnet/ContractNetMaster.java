@@ -66,7 +66,6 @@ public class ContractNetMaster extends Agent {
         REFUSED++;
         String senderName = message.getSender().getName();
         getLogManager().info("Refuse to ContractNetMaster from " + senderName + ": " + message.getContent());
-        rejectAids.add(message.getSender());
 
         if (REFUSED + PROPOSED == NUMBER_OF_SLAVES) {
             deadline();
@@ -87,6 +86,10 @@ public class ContractNetMaster extends Agent {
                 rejectAids.add(acceptAid);
             }
             acceptAid = message.getSender();
+        }
+        else
+        {
+            rejectAids.add(message.getSender());
         }
 
         if (REFUSED + PROPOSED == NUMBER_OF_SLAVES) {

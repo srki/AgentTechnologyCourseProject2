@@ -19,7 +19,7 @@
  * <p>
  * 3. Contract Net Protocol
  * <p>
- * Test: Start ContractNetMaster agent, make Request to ContractNetMaster agent.
+ * TestContractNet: Start ContractNetMaster agent, make Request to ContractNetMaster agent.
  * Master: Gets Request, creates Slave agents and sends Call For Proposal to Slave agents.
  *         Gets Proposal or Reject from Slave agents and selects best (if any).
  *         Sends Accept Proposal to best bid, and Reject Proposal to others.

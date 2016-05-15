@@ -3,3 +3,4 @@ com.ftn.informatika.agents.examples.pingpong, Pong
 com.ftn.informatika.agents.examples.pingpong, TestPingPong
 com.ftn.informatika.agents.examples.contractnet, ContractNetMaster
 com.ftn.informatika.agents.examples.contractnet, ContractNetSlave
+com.ftn.informatika.agents.examples.contractnet, TestContractNet

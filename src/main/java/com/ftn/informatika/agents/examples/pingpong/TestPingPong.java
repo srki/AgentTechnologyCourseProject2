@@ -1,7 +1,6 @@
 package com.ftn.informatika.agents.examples.pingpong;
 
 import com.ftn.informatika.agents.environment.AgentsRemote;
-import com.ftn.informatika.agents.environment.messages.MessagesRemote;
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.Agent;
@@ -24,7 +23,7 @@ public class TestPingPong extends Agent {
 
     @Override
     protected boolean handleRequest(ACLMessage message) {
-        getLogManager().info("Starting PingPong example.");
+        getLogManager().info("Starting PingPong example...");
 
         AgentsRemote agm = ManagerFactory.getAgentManager();
 
