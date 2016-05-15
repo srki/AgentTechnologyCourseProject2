@@ -22,15 +22,15 @@
         <div class="col-md-12">
             <div class="input-group input-container tm-5">
                 <span class="input-group-addon input-description-135" id="receivers-select">Receivers</span>
-                <oi-select oi-options="a.name for a in runningAgents" ng-model="message.receivers"
-                           multiple placeholder="Receivers"></oi-select>
+                <oi-select oi-options="a as (a.name + ' - ' + a.host.alias) for a in runningAgents"
+                           ng-model="message.receivers" multiple placeholder="Receivers"></oi-select>
             </div>
         </div>
 
         <div class="col-md-12">
             <div class="input-group input-container tm-5">
                 <span class="input-group-addon input-description-135" id="replyTo-edit">Reply to</span>
-                <select class="form-control" ng-options="agent.name for agent in runningAgents"
+                <select class="form-control" ng-options="a as (a.name + ' - ' + a.host.alias) for a in runningAgents"
                         ng-model="message.replyTo">
                 </select>
             </div>

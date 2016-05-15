@@ -8,6 +8,8 @@
 
     angular.module('app.NewMessageModalCtrl', [])
         .controller('NewMessageModalCtrl', function ($scope, $uibModalInstance) {
+            $scope.message.performative = "REQUEST";
+
             $scope.send = function () {
                 if (!$scope.message.performative) {
                     $scope.alertMessage = "You have to choose performative."
@@ -28,7 +30,6 @@
                     function (response) {
                         $scope.alertMessage = "Error:" + response.data.message;
                     });
-
             };
 
             $scope.close = function () {
