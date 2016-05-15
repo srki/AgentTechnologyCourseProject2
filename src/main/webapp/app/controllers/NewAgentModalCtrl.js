@@ -8,6 +8,9 @@
 
     angular.module('app.NewAgentModalCtrl', [])
         .controller('NewAgentModalCtrl', function ($scope, $uibModalInstance) {
+
+            $scope.name = $scope.type.name + Math.ceil((Math.random() * 100));
+
             $scope.runAgent = function () {
                 if (!$scope.name) {
                     $scope.alertMessage = "Name can not be empty."

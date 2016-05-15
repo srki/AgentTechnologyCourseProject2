@@ -78,6 +78,10 @@ public class NodesManagementBean implements NodesManagementLocal {
 
     @Override
     public void removeNode(String alias) {
+        if (!nodesDbBean.containsNode(alias)) {
+            return;
+        }
+
         System.out.println(alias + " removed from " + configurationBean.getAlias());
         nodesDbBean.removeNode(alias);
         agentsBean.removeClasses(alias);

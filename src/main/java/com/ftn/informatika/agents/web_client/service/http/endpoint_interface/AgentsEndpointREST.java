@@ -28,6 +28,6 @@ public interface AgentsEndpointREST {
     Object runAgent(@PathParam("type") AgentType type, @PathParam("name") String name);
 
     @DELETE
-    @Path("/{aid}")
+    @Path("/running/{aid}")
     Object stopAgent(@PathParam("aid") AID aid);
 }

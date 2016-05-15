@@ -23,7 +23,6 @@
                 },
                 runAgent: function (type, name, success, error) {
                     type = JSON.stringify(type);
-                    name = JSON.stringify(name);
 
                     $http({
                         method: 'PUT',
