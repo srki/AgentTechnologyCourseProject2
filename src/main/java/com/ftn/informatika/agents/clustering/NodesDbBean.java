@@ -15,39 +15,61 @@ import java.util.Map;
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 @Singleton
 public class NodesDbBean implements NodesDbLocal {
-    private Map<String, AgentCenter> nodes = new HashMap<>();
+    private AgentCenter localNode;
+    private Map<String, AgentCenter> remoteNodes = new HashMap<>();
 
     @Lock(LockType.WRITE)
     @Override
-    public void addNode(AgentCenter agentCenter) throws AliasExistsException {
-        if (nodes.containsKey(agentCenter.getAlias())) {
+    public void addNode(AgentCenter node) throws AliasExistsException {
+        if (node.equals(localNode)) {
+            return;
+        }
+
+        if (remoteNodes.containsKey(node.getAlias())) {
             throw new AliasExistsException();
         }
 
-        nodes.put(agentCenter.getAlias(), agentCenter);
+        remoteNodes.put(node.getAlias(), node);
     }
 
     @Lock(LockType.WRITE)
     @Override
     public void removeNode(String alias) {
-        nodes.remove(alias);
+        remoteNodes.remove(alias);
     }
 
     @Lock(LockType.READ)
     @Override
-    public boolean containsNode(AgentCenter agentCenter) {
-        return nodes.containsKey(agentCenter.getAlias());
+    public boolean containsRemoteNode(String alias) {
+        return remoteNodes.containsKey(alias);
+    }
+
+    @Override
+    public AgentCenter getRemoteNode(String alias) {
+        return remoteNodes.get(alias);
     }
 
     @Lock(LockType.READ)
     @Override
-    public boolean containsNode(String alias) {
-        return nodes.containsKey(alias);
+    public List<AgentCenter> getAllNodes() {
+        List<AgentCenter> allNodes = new ArrayList<>(remoteNodes.values());
+        allNodes.add(localNode);
+        return allNodes;
     }
 
-    @Lock(LockType.READ)
     @Override
-    public List<AgentCenter> getNodes() {
-        return new ArrayList<>(nodes.values());
+    public List<AgentCenter> getRemoteNodes() {
+        return new ArrayList<>(remoteNodes.values());
+    }
+
+    @Override
+    public AgentCenter getLocal() {
+        return localNode;
+    }
+
+    @Override
+    public void setLocal(AgentCenter agentCenter) {
+        remoteNodes.remove(agentCenter.getAlias());
+        localNode = agentCenter;
     }
 }

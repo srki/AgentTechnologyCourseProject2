@@ -1,6 +1,6 @@
 package com.ftn.informatika.agents.examples.mapreduce;
 
-import com.ftn.informatika.agents.clustering.config.AgentsReader;
+import com.ftn.informatika.agents.clustering.startup.config.AgentsReader;
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 import com.ftn.informatika.agents.environment.model.Agent;
 import com.ftn.informatika.agents.environment.model.remote.RemoteAgent;
@@ -10,6 +10,7 @@ import javax.ejb.Stateful;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -24,13 +25,35 @@ import java.util.Map;
 @Stateful
 @Remote(RemoteAgent.class)
 public class MapReduceSlave extends Agent {
+    private static final String HTTP = "http";
 
     @Override
-    protected boolean handleRequest(ACLMessage message) {
-        String fileName = message.getContent();
-        URL url = AgentsReader.class.getResource("/" + fileName);
+    protected void handleRequest(ACLMessage message) {
+        String path = message.getContent();
+        getLogManager().info(aid.getName() + ": " + path);
 
-        Map<Character, Integer> mapReduce = new HashMap<Character, Integer>();
+        Map<Character, Integer> mapReduce = new HashMap<>();
+        try {
+            URL url;
+            if (path.startsWith(HTTP)) {
+                url = new URL(path.trim());
+            } else {
+                url = AgentsReader.class.getResource("/" + path);
+            }
+            fillMap(url, mapReduce);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        ACLMessage reply = new ACLMessage();
+        reply.setPerformative(ACLMessage.Performative.INFORM);
+        reply.setSender(aid);
+        reply.getReceivers().add(message.getSender());
+        reply.setContent(formReply(mapReduce));
+        getMessageManager().sendMessage(reply);
+    }
+
+    private void fillMap(URL url, Map<Character, Integer> mapReduce) {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()))) {
             for (String line = br.readLine(); line != null; line = br.readLine()) {
                 line = line.toLowerCase();
@@ -49,15 +72,6 @@ public class MapReduceSlave extends Agent {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        ACLMessage reply = new ACLMessage();
-        reply.setPerformative(ACLMessage.Performative.INFORM);
-        reply.setSender(aid);
-        reply.getReceivers().add(message.getSender());
-        reply.setContent(formReply(mapReduce));
-        getMessageManager().sendMessage(reply);
-
-        return true;
     }
 
     private String formReply(Map<Character, Integer> mapReduce) {

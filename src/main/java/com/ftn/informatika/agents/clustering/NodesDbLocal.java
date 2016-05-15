@@ -15,9 +15,16 @@ public interface NodesDbLocal {
 
     void removeNode(String alias);
 
-    boolean containsNode(AgentCenter agentCenter);
+    boolean containsRemoteNode(String alias);
 
-    boolean containsNode(String alias);
+    AgentCenter getRemoteNode(String alias);
 
-    List<AgentCenter> getNodes();
+    List<AgentCenter> getAllNodes();
+
+    List<AgentCenter> getRemoteNodes();
+
+    AgentCenter getLocal();
+
+    void setLocal(AgentCenter agentCenter);
+
 }

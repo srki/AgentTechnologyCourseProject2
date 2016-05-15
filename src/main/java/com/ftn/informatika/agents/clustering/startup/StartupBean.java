@@ -1,11 +1,10 @@
-package com.ftn.informatika.agents.clustering.config.startup;
+package com.ftn.informatika.agents.clustering.startup;
 
 import com.ftn.informatika.agents.clustering.NodesDbLocal;
-import com.ftn.informatika.agents.clustering.config.AgentsReader;
-import com.ftn.informatika.agents.clustering.config.ConfigurationLocal;
-import com.ftn.informatika.agents.clustering.exception.AliasExistsException;
-import com.ftn.informatika.agents.clustering.http.NodesRequester;
-import com.ftn.informatika.agents.environment.AgentsLocal;
+import com.ftn.informatika.agents.clustering.service.http.NodesRequester;
+import com.ftn.informatika.agents.clustering.startup.config.AgentsReader;
+import com.ftn.informatika.agents.clustering.startup.config.ConfigurationLocal;
+import com.ftn.informatika.agents.environment.agents.AgentClassesLocal;
 import com.ftn.informatika.agents.environment.model.AgentCenter;
 
 import javax.annotation.PostConstruct;
@@ -34,7 +33,7 @@ public class StartupBean implements StartupLocal {
     @EJB
     private NodesDbLocal nodesDbBean;
     @EJB
-    private AgentsLocal agentsBean;
+    private AgentClassesLocal agentClassesBean;
 
     private String masterAddress;
     private String alias;
@@ -80,8 +79,8 @@ public class StartupBean implements StartupLocal {
 
         AgentCenter agentCenter = new AgentCenter(localAddress, alias);
         configurationDbBean.setAgentCenter(agentCenter);
-        agentsBean.addClasses(AgentsReader.getAgentsList());
-
+        nodesDbBean.setLocal(agentCenter);
+        agentClassesBean.addClasses(alias, AgentsReader.getAgentsList());
 
         if (!configurationDbBean.isMaster()) {
             new Thread(() -> {
@@ -92,15 +91,8 @@ public class StartupBean implements StartupLocal {
                 }
                 new NodesRequester(masterAddress).addNodes(Collections.singletonList(agentCenter));
             }).start();
-        } else {
-            try {
-                nodesDbBean.addNode(agentCenter);
-            } catch (AliasExistsException e) {
-                e.printStackTrace();
-            }
         }
     }
-
 
     @PreDestroy
     public void preDestroy() {

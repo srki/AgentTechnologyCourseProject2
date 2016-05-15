@@ -1,12 +1,10 @@
 package com.ftn.informatika.agents.examples.contractnet;
 
-import com.ftn.informatika.agents.environment.AgentsRemote;
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.Agent;
 import com.ftn.informatika.agents.environment.model.AgentType;
 import com.ftn.informatika.agents.environment.model.remote.RemoteAgent;
-import com.ftn.informatika.agents.environment.util.factory.ManagerFactory;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
@@ -23,28 +21,26 @@ import java.util.ArrayList;
 public class ContractNetMaster extends Agent {
 
     private int NUMBER_OF_SLAVES = 5;
-    private int DELIVERED = 0;
-    private ArrayList<AID> rejectAids = new ArrayList<AID>();
+    private ArrayList<AID> rejectAids = new ArrayList<>();
     private AID acceptAid = null;
     private int bestBid = 1001;
     private int REFUSED = 0;
     private int PROPOSED = 0;
 
     @Override
-    protected boolean handleRequest(ACLMessage message) {
-        // reseting values, in case of restart
+    protected void handleRequest(ACLMessage message) {
+        // resetting values, in case of restart
         resetValues();
 
         getLogManager().info("Request to ContractNetMaster: " + message.getContent());
 
         // start agents
-        AgentsRemote agm = ManagerFactory.getAgentManager();
-        ArrayList<AID> slaveAids = new ArrayList<AID>();
+        ArrayList<AID> slaveAids = new ArrayList<>();
 
         for (int i = 0; i < NUMBER_OF_SLAVES; i++) {
             String slaveName = "ContractNetSlave" + i;
             AgentType slaveAt = new AgentType(ContractNetSlave.class);
-            AID slaveAid = agm.runAgent(slaveAt, slaveName);
+            AID slaveAid = getAgentManager().runAgent(slaveAt, slaveName);
             slaveAids.add(slaveAid);
         }
 
@@ -57,12 +53,10 @@ public class ContractNetMaster extends Agent {
             cfp.setContent("Master is Calling For Proposals, please send your bids!");
             getMessageManager().sendMessage(cfp);
         }
-
-        return true;
     }
 
     @Override
-    protected boolean handleRefuse(ACLMessage message) {
+    protected void handleRefuse(ACLMessage message) {
         REFUSED++;
         String senderName = message.getSender().getName();
         getLogManager().info("Refuse to ContractNetMaster from " + senderName + ": " + message.getContent());
@@ -70,12 +64,10 @@ public class ContractNetMaster extends Agent {
         if (REFUSED + PROPOSED == NUMBER_OF_SLAVES) {
             deadline();
         }
-
-        return true;
     }
 
     @Override
-    protected boolean handlePropose(ACLMessage message) {
+    protected void handlePropose(ACLMessage message) {
         PROPOSED++;
         String senderName = message.getSender().getName();
         getLogManager().info("Propose to ContractNetMaster from " + senderName + ": " + message.getContent());
@@ -86,16 +78,13 @@ public class ContractNetMaster extends Agent {
                 rejectAids.add(acceptAid);
             }
             acceptAid = message.getSender();
-        }
-        else
-        {
+        } else {
             rejectAids.add(message.getSender());
         }
 
         if (REFUSED + PROPOSED == NUMBER_OF_SLAVES) {
             deadline();
         }
-        return true;
     }
 
 
@@ -110,17 +99,15 @@ public class ContractNetMaster extends Agent {
     }
 
     @Override
-    protected boolean handleFailure(ACLMessage message) {
+    protected void handleFailure(ACLMessage message) {
         String senderName = message.getSender().getName();
         getLogManager().info(senderName + " failed to finish: " + message.getContent());
-        return true;
     }
 
     @Override
-    protected boolean handleInform(ACLMessage message) {
+    protected void handleInform(ACLMessage message) {
         String senderName = message.getSender().getName();
         getLogManager().info(senderName + " finished successfully: " + message.getContent());
-        return true;
     }
 
     private void sendReject() {
@@ -144,7 +131,6 @@ public class ContractNetMaster extends Agent {
     }
 
     private void resetValues() {
-        DELIVERED = 0;
         rejectAids.clear();
         acceptAid = null;
         bestBid = 1001;

@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.environment.service.http;
+package com.ftn.informatika.agents.environment.agents.service.http;
 
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.AgentType;
@@ -19,13 +19,13 @@ public interface AgentsManagementEndpointREST {
     @Path("/classes")
     Object addClasses(Map<String, List<AgentType>> classes);
 
-    @POST
-    @Path("/running")
-    Object addRunning(List<AID> agents);
-
     @DELETE
     @Path("/classes")
     Object removeClasses(Map<String, List<AgentType>> classes);
+
+    @POST
+    @Path("/running")
+    Object addRunning(List<AID> agents);
 
     @DELETE
     @Path("/running")

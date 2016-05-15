@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.environment.messages.http;
+package com.ftn.informatika.agents.environment.messages.service.http;
 
 import com.ftn.informatika.agents.environment.messages.MessagesLocal;
 import com.ftn.informatika.agents.environment.model.ACLMessage;

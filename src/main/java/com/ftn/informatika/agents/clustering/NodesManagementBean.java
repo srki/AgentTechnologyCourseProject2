@@ -1,13 +1,14 @@
 package com.ftn.informatika.agents.clustering;
 
-import com.ftn.informatika.agents.clustering.config.ConfigurationLocal;
 import com.ftn.informatika.agents.clustering.exception.AliasExistsException;
-import com.ftn.informatika.agents.clustering.http.NodesRequester;
-import com.ftn.informatika.agents.environment.AgentsLocal;
+import com.ftn.informatika.agents.clustering.service.http.NodesRequester;
+import com.ftn.informatika.agents.clustering.startup.config.ConfigurationLocal;
+import com.ftn.informatika.agents.environment.agents.AgentClassesLocal;
+import com.ftn.informatika.agents.environment.agents.RunningAgentsLocal;
+import com.ftn.informatika.agents.environment.agents.service.http.AgentsManagementRequester;
+import com.ftn.informatika.agents.environment.agents.service.http.AgentsRequester;
 import com.ftn.informatika.agents.environment.model.AgentCenter;
 import com.ftn.informatika.agents.environment.model.AgentType;
-import com.ftn.informatika.agents.environment.service.http.AgentsManagementRequester;
-import com.ftn.informatika.agents.environment.service.http.AgentsRequester;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -25,7 +26,9 @@ public class NodesManagementBean implements NodesManagementLocal {
     @EJB
     private ConfigurationLocal configurationBean;
     @EJB
-    private AgentsLocal agentsBean;
+    private AgentClassesLocal agentClassesBean;
+    @EJB
+    private RunningAgentsLocal runningAgentsBean;
 
     @Override
     public void registerNodes(List<AgentCenter> agentCenters) throws AliasExistsException {
@@ -41,7 +44,7 @@ public class NodesManagementBean implements NodesManagementLocal {
 
             // Send new classes to other nodes
             try {
-                for (AgentCenter agentCenter : nodesDbBean.getNodes()) {
+                for (AgentCenter agentCenter : nodesDbBean.getAllNodes()) {
                     if (configurationBean.getAlias().equals(agentCenter.getAlias())) {
                         continue;
                     }
@@ -52,16 +55,16 @@ public class NodesManagementBean implements NodesManagementLocal {
                 e.printStackTrace();
             }
 
+            agentClassesBean.addClasses(newAgentCenter.getAlias(), agentTypes);
             nodesDbBean.addNode(newAgentCenter);
-            agentsBean.addClasses(newAgentCenter.getAlias(), agentTypes);
 
             // Deliver all nodes to the new node
-            new NodesRequester(newAgentCenter.getAddress()).addNodes(nodesDbBean.getNodes());
+            new NodesRequester(newAgentCenter.getAddress()).addNodes(nodesDbBean.getAllNodes());
 
             // Deliver all classes and running agents to the new node
             AgentsManagementRequester requester = new AgentsManagementRequester(newAgentCenter.getAddress());
-            requester.addClasses(agentsBean.getClasses());
-            requester.addRunning(agentsBean.getRunningAgents());
+            requester.addClasses(agentClassesBean.getAllClasses());
+            requester.addRunning(runningAgentsBean.getAllRunningAgents());
 
             System.out.println(newAgentCenter.getAlias() + " registered to " + configurationBean.getAlias());
         } else {
@@ -78,17 +81,17 @@ public class NodesManagementBean implements NodesManagementLocal {
 
     @Override
     public void removeNode(String alias) {
-        if (!nodesDbBean.containsNode(alias)) {
+        if (!nodesDbBean.containsRemoteNode(alias)) {
             return;
         }
 
         System.out.println(alias + " removed from " + configurationBean.getAlias());
         nodesDbBean.removeNode(alias);
-        agentsBean.removeClasses(alias);
-        agentsBean.removeRunningAgentsFromNode(alias);
+        agentClassesBean.removeClasses(alias);
+        runningAgentsBean.removeRunningAgentsFromNode(alias);
 
         if (configurationBean.isMaster()) {
-            nodesDbBean.getNodes().forEach(node -> {
+            nodesDbBean.getAllNodes().forEach(node -> {
                 if (!configurationBean.getAgentCenter().equals(node)) {
                     new NodesRequester(node.getAddress()).removeNode(alias);
                 }

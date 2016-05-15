@@ -1,6 +1,6 @@
 package com.ftn.informatika.agents.examples.contractnet;
 
-import com.ftn.informatika.agents.environment.AgentsRemote;
+import com.ftn.informatika.agents.environment.agents.manager.AgentManagerRemote;
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.Agent;
@@ -19,13 +19,12 @@ import javax.ejb.Stateful;
 
 @Stateful
 @Remote(RemoteAgent.class)
-public class TestContractNet extends Agent
-{
+public class TestContractNet extends Agent {
     @Override
-    protected boolean handleRequest(ACLMessage message) {
+    protected void handleRequest(ACLMessage message) {
         getLogManager().info("Starting ContractNetProtocol Example...");
 
-        AgentsRemote agm = ManagerFactory.getAgentManager();
+        AgentManagerRemote agm = ManagerFactory.getAgentManager();
 
         // starting master
         AgentType cnmAt = new AgentType(ContractNetMaster.class);
@@ -37,7 +36,5 @@ public class TestContractNet extends Agent
         msg.getReceivers().add(masterAid);
         msg.setContent("Start!");
         getMessageManager().sendMessage(msg);
-
-        return true;
     }
 }

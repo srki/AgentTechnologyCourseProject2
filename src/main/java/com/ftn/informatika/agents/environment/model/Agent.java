@@ -1,10 +1,10 @@
 package com.ftn.informatika.agents.environment.model;
 
-import com.ftn.informatika.agents.environment.AgentsRemote;
-import com.ftn.informatika.agents.environment.messages.MessagesRemote;
+import com.ftn.informatika.agents.environment.agents.manager.AgentManager;
+import com.ftn.informatika.agents.environment.messages.MessagesManager;
 import com.ftn.informatika.agents.environment.model.remote.RemoteAgent;
 import com.ftn.informatika.agents.environment.util.factory.ManagerFactory;
-import com.ftn.informatika.agents.environment.util.log.LogRemote;
+import com.ftn.informatika.agents.environment.util.log.LogManager;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
@@ -21,9 +21,9 @@ public abstract class Agent implements RemoteAgent {
 
     protected AID aid;
 
-    private LogRemote logManager;
-    private AgentsRemote agentManager;
-    private MessagesRemote messageManager;
+    private LogManager logManager;
+    private AgentManager agentManager;
+    private MessagesManager messageManager;
 
     @Override
     public void init(AID aid) {
@@ -31,160 +31,187 @@ public abstract class Agent implements RemoteAgent {
     }
 
     @Override
-    public boolean handleMessage(ACLMessage message) {
+    public void handleMessage(ACLMessage message) {
         switch (message.getPerformative()) {
             case ACCEPT_PROPOSAL:
-                return handleAcceptProposal(message);
+                handleAcceptProposal(message);
+                break;
             case AGREE:
-                return handleAgree(message);
+                handleAgree(message);
+                break;
             case CANCEL:
-                return handleCancel(message);
+                handleCancel(message);
+                break;
             case CFP:
-                return handleCFP(message);
+                handleCFP(message);
+                break;
             case CONFIRM:
-                return handleConfirm(message);
+                handleConfirm(message);
+                break;
             case DISCONFIRM:
-                return handleDisconfirm(message);
+                handleDisconfirm(message);
+                break;
             case FAILURE:
-                return handleFailure(message);
+                handleFailure(message);
+                break;
             case INFORM:
-                return handleInform(message);
+                handleInform(message);
+                break;
             case INFORM_IF:
-                return handleInformIf(message);
+                handleInformIf(message);
+                break;
             case INFORM_REF:
-                return handleInformRef(message);
+                handleInformRef(message);
+                break;
             case NOT_UNDERSTOOD:
-                return handleNotUnderstood(message);
+                handleNotUnderstood(message);
+                break;
             case PROPOSE:
-                return handlePropose(message);
+                handlePropose(message);
+                break;
             case QUERY_IF:
-                return handleQueryIf(message);
+                handleQueryIf(message);
+                break;
             case QUERY_REF:
-                return handleQueryRef(message);
+                handleQueryRef(message);
+                break;
             case REFUSE:
-                return handleRefuse(message);
+                handleRefuse(message);
+                break;
             case REJECT_PROPOSAL:
-                return handleRejectProposal(message);
+                handleRejectProposal(message);
+                break;
             case REQUEST:
-                return handleRequest(message);
+                handleRequest(message);
+                break;
             case REQUEST_WHEN:
-                return handleRequestWhen(message);
+                handleRequestWhen(message);
+                break;
             case REQUEST_WHENEVER:
-                return handleRequestWhenever(message);
+                handleRequestWhenever(message);
+                break;
             case SUBSCRIBE:
-                return handleSubscribe(message);
+                handleSubscribe(message);
+                break;
             case PROXY:
-                return handleProxy(message);
+                handleProxy(message);
+                break;
             case PROPAGATE:
-                return handlePropagate(message);
+                handlePropagate(message);
+                break;
             case UNKNOWN:
-                return handleUnknown(message);
+                handleUnknown(message);
+                break;
             default:
-                return false;
+                System.err.println("Unknown performative: " + message.getPerformative());
         }
     }
 
-    protected boolean handleAcceptProposal(ACLMessage message) {
-        return false;
+    protected void handleAcceptProposal(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleAgree(ACLMessage message) {
-        return false;
+    protected void handleAgree(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleCancel(ACLMessage message) {
-        return false;
+    protected void handleCancel(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleCFP(ACLMessage message) {
-        return false;
+    protected void handleCFP(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleConfirm(ACLMessage message) {
-        return false;
+    protected void handleConfirm(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleDisconfirm(ACLMessage message) {
-        return false;
+    protected void handleDisconfirm(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleFailure(ACLMessage message) {
-        return false;
+    protected void handleFailure(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleInform(ACLMessage message) {
-        return false;
+    protected void handleInform(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleInformIf(ACLMessage message) {
-        return false;
+    protected void handleInformIf(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleInformRef(ACLMessage message) {
-        return false;
+    protected void handleInformRef(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleNotUnderstood(ACLMessage message) {
-        return false;
+    protected void handleNotUnderstood(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handlePropose(ACLMessage message) {
-        return false;
+    protected void handlePropose(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleQueryIf(ACLMessage message) {
-        return false;
+    protected void handleQueryIf(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleQueryRef(ACLMessage message) {
-        return false;
+    protected void handleQueryRef(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleRefuse(ACLMessage message) {
-        return false;
+    protected void handleRefuse(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleRejectProposal(ACLMessage message) {
-        return false;
+    protected void handleRejectProposal(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleRequest(ACLMessage message) {
-        return false;
+    protected void handleRequest(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleRequestWhen(ACLMessage message) {
-        return false;
+    protected void handleRequestWhen(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleRequestWhenever(ACLMessage message) {
-        return false;
+    protected void handleRequestWhenever(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleSubscribe(ACLMessage message) {
-        return false;
+    protected void handleSubscribe(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleProxy(ACLMessage message) {
-        return false;
+    protected void handleProxy(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handlePropagate(ACLMessage message) {
-        return false;
+    protected void handlePropagate(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
     }
 
-    protected boolean handleUnknown(ACLMessage message) {
-        return false;
+    protected void handleUnknown(ACLMessage message) {
+        unhandledPerformative(message.getPerformative());
+    }
+
+    protected void unhandledPerformative(ACLMessage.Performative performative) {
+        System.err.println("Warning: unhandled performative " + performative + ". Agent name: " + aid.getName());
     }
 
     public AID getAid() {
         return aid;
     }
 
-    public void setId(AID myAid) {
-        this.aid = myAid;
+    public void setId(AID aid) {
+        this.aid = aid;
     }
 
-    protected AgentsRemote getAgentManager() {
+    protected AgentManager getAgentManager() {
         if (agentManager == null) {
             agentManager = ManagerFactory.getAgentManager();
         }
@@ -192,7 +219,7 @@ public abstract class Agent implements RemoteAgent {
         return agentManager;
     }
 
-    protected MessagesRemote getMessageManager() {
+    protected MessagesManager getMessageManager() {
         if (messageManager == null) {
             messageManager = ManagerFactory.getMessagesManager();
         }
@@ -200,7 +227,7 @@ public abstract class Agent implements RemoteAgent {
         return messageManager;
     }
 
-    protected LogRemote getLogManager() {
+    protected LogManager getLogManager() {
         if (logManager == null) {
             logManager = ManagerFactory.getLogManager();
         }

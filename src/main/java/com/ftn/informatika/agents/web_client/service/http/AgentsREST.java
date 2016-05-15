@@ -1,11 +1,11 @@
 package com.ftn.informatika.agents.web_client.service.http;
 
-import com.ftn.informatika.agents.clustering.config.ConfigurationLocal;
-import com.ftn.informatika.agents.environment.AgentsLocal;
+import com.ftn.informatika.agents.environment.agents.AgentClassesLocal;
+import com.ftn.informatika.agents.environment.agents.RunningAgentsLocal;
+import com.ftn.informatika.agents.environment.agents.manager.AgentManagerLocal;
 import com.ftn.informatika.agents.environment.exceptions.NameAlreadyExistsException;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.AgentType;
-import com.ftn.informatika.agents.environment.service.http.AgentsRequester;
 import com.ftn.informatika.agents.web_client.service.ErrorObject;
 import com.ftn.informatika.agents.web_client.service.http.endpoint_interface.AgentsEndpointREST;
 
@@ -22,24 +22,26 @@ import java.util.List;
 public class AgentsREST implements AgentsEndpointREST {
 
     @EJB
-    private AgentsLocal agentsBean;
+    private AgentManagerLocal agentManagerBean;
     @EJB
-    private ConfigurationLocal configurationBean;
+    private AgentClassesLocal agentClassesBean;
+    @EJB
+    private RunningAgentsLocal runningAgentsBean;
 
     @Override
     public List<AgentType> getClasses() {
-        return agentsBean.getClassesAsList();
+        return agentClassesBean.getAllClassesAsList();
     }
 
     @Override
     public List<AID> getRunning() {
-        return agentsBean.getRunningAgents();
+        return runningAgentsBean.getAllRunningAgents();
     }
 
     @Override
     public Object runAgent(AgentType type, String name) {
         try {
-            agentsBean.runAgent(type, name);
+            return agentManagerBean.runAgent(type, name);
         } catch (EJBException e) {
             if (e.getCause() instanceof NameAlreadyExistsException) {
                 return new ErrorObject("Name already exists.");
@@ -50,16 +52,11 @@ public class AgentsREST implements AgentsEndpointREST {
         } catch (NameAlreadyExistsException e) {
             return new ErrorObject("Name already exists.");
         }
-        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     @Override
     public Object stopAgent(AID aid) {
-        if (!configurationBean.getAgentCenter().equals(aid.getHost())) {
-            new AgentsRequester(aid.getHost().getAddress()).stopAgent(aid);
-        } else {
-            agentsBean.stopAgent(aid);
-        }
+        agentManagerBean.stopAgent(aid);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 }

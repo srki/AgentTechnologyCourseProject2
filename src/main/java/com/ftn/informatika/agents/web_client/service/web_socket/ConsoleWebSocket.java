@@ -1,12 +1,12 @@
 package com.ftn.informatika.agents.web_client.service.web_socket;
 
-import com.ftn.informatika.agents.clustering.config.ConfigurationLocal;
-import com.ftn.informatika.agents.environment.AgentsLocal;
+import com.ftn.informatika.agents.environment.agents.AgentClassesLocal;
+import com.ftn.informatika.agents.environment.agents.RunningAgentsLocal;
+import com.ftn.informatika.agents.environment.agents.manager.AgentManagerLocal;
 import com.ftn.informatika.agents.environment.exceptions.NameAlreadyExistsException;
 import com.ftn.informatika.agents.environment.messages.MessagesLocal;
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 import com.ftn.informatika.agents.environment.model.AID;
-import com.ftn.informatika.agents.environment.service.http.AgentsRequester;
 import com.ftn.informatika.agents.web_client.service.ErrorObject;
 import com.ftn.informatika.agents.web_client.service.web_socket.beans.SessionsDbLocal;
 import com.ftn.informatika.agents.web_client.service.web_socket.model.RunAgentRequest;
@@ -28,13 +28,15 @@ import java.io.IOException;
 public class ConsoleWebSocket {
 
     @EJB
-    private AgentsLocal agentsBean;
+    private AgentClassesLocal agentClassesBean;
+    @EJB
+    private RunningAgentsLocal runningAgentsBean;
     @EJB
     private MessagesLocal messagesBean;
     @EJB
     private SessionsDbLocal sessionsBean;
     @EJB
-    private ConfigurationLocal configurationBean;
+    private AgentManagerLocal agentManagerBean;
 
     @OnMessage
     public void onMessage(String message, Session session) {
@@ -44,34 +46,34 @@ public class ConsoleWebSocket {
 
         System.out.println("WebSocketEndpoint receiver message:" + message);
         WebSocketPacket websocketPacket = new Gson().fromJson(message, WebSocketPacket.class);
+
         try {
             switch (websocketPacket.getType()) {
                 case GET_CLASSES:
-                    handleGetClasses(websocketPacket.getData(), session);
+                    handleGetClasses(session);
                     break;
                 case GET_RUNNING:
-                    handleGetRunning(websocketPacket.getData(), session);
+                    handleGetRunning(session);
                     break;
                 case RUN_AGENT:
                     handleRunAgent(websocketPacket.getData(), session);
                     break;
                 case STOP_AGENT:
-                    handleStopAgent(websocketPacket.getData(), session);
+                    handleStopAgent(websocketPacket.getData());
                     break;
                 case SEND_MESSAGE:
                     handleSendMessage(websocketPacket.getData(), session);
                     break;
                 case GET_PERFORMATIVES:
-                    handleGetPerformatives(websocketPacket.getData(), session);
+                    handleGetPerformatives(session);
                     break;
                 default:
-                    System.err.println("Unknown performative: " + websocketPacket.getType());
+                    System.err.println("Unknown WebSocket type: " + websocketPacket.getType());
             }
 
         } catch (IOException e) {
             System.err.println("WebSocket Exception: " + e.getMessage());
         }
-
     }
 
     @OnError
@@ -89,41 +91,38 @@ public class ConsoleWebSocket {
         sessionsBean.removeSession(session);
     }
 
-    private void handleGetClasses(String data, Session session) throws IOException {
-        createAndSendPackage(session, WebSocketPacket.Type.GET_CLASSES, agentsBean.getClassesAsList());
+    private void handleGetClasses(Session session) throws IOException {
+        createAndSendPackage(session, WebSocketPacket.Type.GET_CLASSES, agentClassesBean.getAllClassesAsList());
     }
 
-    private void handleGetRunning(String data, Session session) throws IOException {
-        createAndSendPackage(session, WebSocketPacket.Type.GET_RUNNING, agentsBean.getRunningAgents());
+    private void handleGetRunning(Session session) throws IOException {
+        createAndSendPackage(session, WebSocketPacket.Type.GET_RUNNING, runningAgentsBean.getAllRunningAgents());
     }
 
     private void handleRunAgent(String data, Session session) throws IOException {
+        String errorMessage = null;
         RunAgentRequest request = new Gson().fromJson(data, RunAgentRequest.class);
+
         try {
-            AID aid = agentsBean.runAgent(request.getAgentType(), request.getName());
+            AID aid = agentManagerBean.runAgent(request.getAgentType(), request.getName());
             createAndSendPackage(session, WebSocketPacket.Type.RUN_AGENT, aid);
         } catch (EJBException e) {
             if (e.getCause() instanceof NameAlreadyExistsException) {
-                createAndSendPackage(session, WebSocketPacket.Type.RUN_AGENT,
-                        new ErrorObject("Name already exists!."), false);
+                errorMessage = "Name already exists";
             } else {
                 e.printStackTrace();
-                createAndSendPackage(session, WebSocketPacket.Type.RUN_AGENT,
-                        new ErrorObject(e.getMessage()), false);
+                errorMessage = e.getMessage();
             }
         } catch (NameAlreadyExistsException e) {
-            createAndSendPackage(session, WebSocketPacket.Type.RUN_AGENT,
-                    new ErrorObject("Name already exists!."), false);
+            errorMessage = "Name already exists";
         }
+
+        createAndSendPackage(session, WebSocketPacket.Type.RUN_AGENT, new ErrorObject(errorMessage), false);
     }
 
-    private void handleStopAgent(String data, Session session) throws IOException {
+    private void handleStopAgent(String data) throws IOException {
         AID aid = new Gson().fromJson(data, AID.class);
-        if (!configurationBean.getAgentCenter().equals(aid.getHost())) {
-            new AgentsRequester(aid.getHost().getAddress()).stopAgent(aid);
-        } else {
-            agentsBean.stopAgent(aid);
-        }
+        agentManagerBean.stopAgent(aid);
     }
 
     private void handleSendMessage(String data, Session session) throws IOException {
@@ -131,7 +130,7 @@ public class ConsoleWebSocket {
         createAndSendPackage(session, WebSocketPacket.Type.SEND_MESSAGE, "");
     }
 
-    private void handleGetPerformatives(String data, Session session) throws IOException {
+    private void handleGetPerformatives(Session session) throws IOException {
         createAndSendPackage(session, WebSocketPacket.Type.GET_PERFORMATIVES, messagesBean.getPerformatives());
     }
 

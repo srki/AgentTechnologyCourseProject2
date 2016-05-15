@@ -1,6 +1,6 @@
 package com.ftn.informatika.agents.environment.messages;
 
-import com.ftn.informatika.agents.environment.AgentsLocal;
+import com.ftn.informatika.agents.environment.agents.RunningAgentsLocal;
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 import com.ftn.informatika.agents.environment.model.Agent;
 
@@ -25,7 +25,7 @@ import javax.jms.ObjectMessage;
 public class MessageDispatcherMDB implements MessageListener {
 
     @EJB
-    private AgentsLocal agentsBean;
+    private RunningAgentsLocal runningAgentsBean;
 
     @Override
     public void onMessage(Message message) {
@@ -36,9 +36,13 @@ public class MessageDispatcherMDB implements MessageListener {
                     ACLMessage aclMessage = ((ACLMessage) object);
 
                     aclMessage.getReceivers().forEach(receiver -> {
-                        Agent agent = agentsBean.getAgent(receiver);
-                        if (agent != null) {
-                            agent.handleMessage(aclMessage);
+                        try {
+                            Agent agent = runningAgentsBean.getLocalAgent(receiver);
+                            if (agent != null) {
+                                agent.handleMessage(aclMessage);
+                            }
+                        } catch (Exception e) {
+                            System.err.println("Handle message exception. " + e.getMessage());
                         }
                     });
                 }

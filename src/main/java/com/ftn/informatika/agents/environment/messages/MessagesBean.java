@@ -1,7 +1,7 @@
 package com.ftn.informatika.agents.environment.messages;
 
-import com.ftn.informatika.agents.clustering.config.ConfigurationLocal;
-import com.ftn.informatika.agents.environment.messages.http.MessageReceiverRequester;
+import com.ftn.informatika.agents.clustering.startup.config.ConfigurationLocal;
+import com.ftn.informatika.agents.environment.messages.service.http.MessageReceiverRequester;
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 
 import javax.annotation.Resource;

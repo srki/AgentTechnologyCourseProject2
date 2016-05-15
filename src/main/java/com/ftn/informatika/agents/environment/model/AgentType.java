@@ -79,9 +79,6 @@ public class AgentType implements Serializable {
 
     @Override
     public String toString() {
-        return "AgentType{" +
-                "name='" + name + '\'' +
-                ", module='" + module + '\'' +
-                '}';
+        return new Gson().toJson(this);
     }
 }

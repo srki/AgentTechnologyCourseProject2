@@ -1,12 +1,10 @@
 package com.ftn.informatika.agents.examples.mapreduce;
 
-import com.ftn.informatika.agents.environment.AgentsRemote;
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.Agent;
 import com.ftn.informatika.agents.environment.model.AgentType;
 import com.ftn.informatika.agents.environment.model.remote.RemoteAgent;
-import com.ftn.informatika.agents.environment.util.factory.ManagerFactory;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
@@ -16,27 +14,22 @@ import javax.ejb.Stateful;
  *
  * @author Dragan Vidakovic
  */
-
 @Stateful
 @Remote(RemoteAgent.class)
 public class TestMapReduce extends Agent {
     @Override
-    protected boolean handleRequest(ACLMessage message) {
+    protected void handleRequest(ACLMessage message) {
         getLogManager().info("Starting MapReduce Example...");
 
-        AgentsRemote agm = ManagerFactory.getAgentManager();
-
-        // starting master
+        // Start master
         AgentType mrmAt = new AgentType(MapReduceMaster.class);
-        AID masterAid = agm.runAgent(mrmAt, "MapReduceMaster");
+        AID masterAid = getAgentManager().runAgent(mrmAt, "MapReduceMaster");
 
-        // sending initial message
+        // Send initial message
         ACLMessage msg = new ACLMessage();
         msg.setPerformative(ACLMessage.Performative.REQUEST);
         msg.getReceivers().add(masterAid);
-        msg.setContent("Start!");
+        msg.setContent(message.getContent());
         getMessageManager().sendMessage(msg);
-
-        return true;
     }
 }

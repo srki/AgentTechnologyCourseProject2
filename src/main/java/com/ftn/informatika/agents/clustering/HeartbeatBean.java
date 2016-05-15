@@ -1,7 +1,7 @@
 package com.ftn.informatika.agents.clustering;
 
-import com.ftn.informatika.agents.clustering.config.ConfigurationLocal;
-import com.ftn.informatika.agents.clustering.http.NodesRequester;
+import com.ftn.informatika.agents.clustering.service.http.NodesRequester;
+import com.ftn.informatika.agents.clustering.startup.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.model.AgentCenter;
 
 import javax.ejb.EJB;
@@ -27,11 +27,10 @@ public class HeartbeatBean {
 
     @Schedule(hour = "*", minute = "*", second = "*/15", info = "every 45th second")
     public void isAlive() {
-        System.out.println(getClass().getName());
         List<AgentCenter> destroy = new ArrayList<>();
 
         // Check if nodes are alive
-        nodesDbBean.getNodes().forEach(node -> {
+        nodesDbBean.getAllNodes().forEach(node -> {
             if (configurationBean.getAgentCenter().equals(node)) {
                 return;
             }
@@ -53,7 +52,7 @@ public class HeartbeatBean {
 
         // Notify all nodes
         destroy.forEach(node -> nodesDbBean.removeNode(node.getAlias()));
-        nodesDbBean.getNodes().forEach(node -> {
+        nodesDbBean.getAllNodes().forEach(node -> {
             NodesRequester requester = new NodesRequester(node.getAddress());
             destroy.forEach(removeNode -> {
                 try {

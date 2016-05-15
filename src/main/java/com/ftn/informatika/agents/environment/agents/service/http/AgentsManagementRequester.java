@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.environment.service.http;
+package com.ftn.informatika.agents.environment.agents.service.http;
 
 import com.ftn.informatika.agents.ApplicationConfig;
 import com.ftn.informatika.agents.environment.model.AID;

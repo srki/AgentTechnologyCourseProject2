@@ -18,7 +18,7 @@ import javax.ejb.Stateful;
 public class Pong extends Agent{
 
     @Override
-    protected boolean handleRequest(ACLMessage message) {
+    protected void handleRequest(ACLMessage message) {
         getLogManager().info("Request to Pong: " + message.getContent());
 
         ACLMessage reply = new ACLMessage();
@@ -26,7 +26,5 @@ public class Pong extends Agent{
         reply.getReceivers().add(message.getSender());
         reply.setContent("Hello Ping!");
         getMessageManager().sendMessage(reply);
-
-        return true;
     }
 }

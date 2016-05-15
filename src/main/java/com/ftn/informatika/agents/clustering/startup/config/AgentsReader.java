@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.clustering.config;
+package com.ftn.informatika.agents.clustering.startup.config;
 
 import com.ftn.informatika.agents.environment.model.AgentType;
 

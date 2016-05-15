@@ -12,6 +12,6 @@ public interface RemoteAgent {
 
     void init(AID aid);
 
-    boolean handleMessage(ACLMessage msg);
+    void handleMessage(ACLMessage msg);
 
 }

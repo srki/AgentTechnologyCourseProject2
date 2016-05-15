@@ -26,7 +26,7 @@
                             <th class="purple">Module</th>
                             <th class="purple" style="width: 45px">Run</th>
                         </tr>
-                        <tr ng-repeat="type in agentTypes">
+                        <tr ng-repeat="type in agentTypes | orderBy:'name'">
                             <td class="green">{{type.name}}</td>
                             <td>{{type.module}}</td>
                             <td class="clickable ta-mid" ng-click="runAgent(type)">

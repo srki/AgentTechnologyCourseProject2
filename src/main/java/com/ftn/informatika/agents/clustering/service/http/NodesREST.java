@@ -1,4 +1,4 @@
-package com.ftn.informatika.agents.clustering.http;
+package com.ftn.informatika.agents.clustering.service.http;
 
 import com.ftn.informatika.agents.clustering.NodesDbLocal;
 import com.ftn.informatika.agents.clustering.NodesManagementLocal;
@@ -45,6 +45,6 @@ public class NodesREST implements NodesEndpointREST {
 
     @Override
     public List<AgentCenter> getAgentCenters() {
-        return nodesDbBean.getNodes();
+        return nodesDbBean.getAllNodes();
     }
 }

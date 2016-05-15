@@ -6,7 +6,6 @@ import com.ftn.informatika.agents.environment.model.remote.RemoteAgent;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
-import javax.persistence.Convert;
 import java.util.Random;
 
 /**
@@ -20,7 +19,7 @@ import java.util.Random;
 public class ContractNetSlave extends Agent {
 
     @Override
-    protected boolean handleCFP(ACLMessage message) {
+    protected void handleCFP(ACLMessage message) {
         String receiverName = aid.getName();
         getLogManager().info("Call For Proposal to " + receiverName + ": " + message.getContent());
 
@@ -45,12 +44,10 @@ public class ContractNetSlave extends Agent {
         }
 
         getMessageManager().sendMessage(reply);
-
-        return true;
     }
 
     @Override
-    protected boolean handleAcceptProposal(ACLMessage message) {
+    protected void handleAcceptProposal(ACLMessage message) {
         String receiverName = aid.getName();
         getLogManager().info("Accept Proposal to " + receiverName + ": " + message.getContent());
 
@@ -72,14 +69,11 @@ public class ContractNetSlave extends Agent {
         }
 
         getMessageManager().sendMessage(reply);
-
-        return true;
     }
 
     @Override
-    protected boolean handleRejectProposal(ACLMessage message) {
+    protected void handleRejectProposal(ACLMessage message) {
         String receiverName = aid.getName();
         getLogManager().info("Reject Proposal to " + receiverName + ": " + message.getContent());
-        return true;
     }
 }

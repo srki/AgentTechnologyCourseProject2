@@ -19,7 +19,7 @@ import javax.ejb.Stateful;
 public class Ping extends Agent {
 
     @Override
-    protected boolean handleRequest(ACLMessage message) {
+    protected void handleRequest(ACLMessage message) {
         getLogManager().info("Request to Ping: " + message.getContent());
 
         AID pongAid = message.getReplyTo();
@@ -29,16 +29,11 @@ public class Ping extends Agent {
         msgToPong.getReceivers().add(pongAid);
         msgToPong.setContent("Hello Pong!");
         getMessageManager().sendMessage(msgToPong);
-
-        return true;
     }
 
     @Override
-    protected boolean handleInform(ACLMessage message) {
+    protected void handleInform(ACLMessage message) {
         getLogManager().info("Inform to Ping: " + message.getContent());
-
         getLogManager().info("Ping received INFORM from Pong: " + message.getContent());
-
-        return true;
     }
 }
