@@ -22,7 +22,7 @@ import javax.jms.ObjectMessage;
                 @ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/queue/ExpiryQueue")
         }
 )
-public class MessageDispatcher implements MessageListener {
+public class MessageDispatcherMDB implements MessageListener {
 
     @EJB
     private AgentsLocal agentsBean;
@@ -44,6 +44,8 @@ public class MessageDispatcher implements MessageListener {
                 }
             } catch (JMSException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                System.err.println("onMessage Exception: " + e.getMessage());
             }
         }
     }

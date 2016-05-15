@@ -2,6 +2,7 @@ package com.ftn.informatika.agents.environment;
 
 import com.ftn.informatika.agents.clustering.NodesDbLocal;
 import com.ftn.informatika.agents.clustering.config.ConfigurationLocal;
+import com.ftn.informatika.agents.environment.exceptions.NameAlreadyExistsException;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.Agent;
 import com.ftn.informatika.agents.environment.model.AgentType;
@@ -72,15 +73,16 @@ public class AgentsBean implements AgentsLocal, AgentsRemote {
     @Lock(LockType.WRITE)
     @Override
     public void removeClasses(String alias, List<AgentType> types) {
-        if (!this.allTypes.containsKey(alias)) {
+        if (!allTypes.containsKey(alias)) {
             return;
         }
 
-        if (types == null) {
-            this.allTypes.remove(alias);
-        } else {
-            this.allTypes.get(alias).removeAll(types);
-        }
+        allTypes.get(alias).removeAll(types);
+    }
+
+    @Override
+    public void removeClasses(String alias) {
+        allTypes.remove(alias);
     }
 
     /**
@@ -136,10 +138,15 @@ public class AgentsBean implements AgentsLocal, AgentsRemote {
 
     @Lock(LockType.WRITE)
     @Override
-    public AID runAgent(AgentType agentType, String name) {
+    public AID runAgent(AgentType agentType, String name) throws NameAlreadyExistsException {
         // TODO: implement test case when local server does not contain agentType
         // TODO: implement name unique constrain
+        if (localAgents.containsKey(new AID(name, configurationBean.getAgentCenter(), null))) {
+            throw new NameAlreadyExistsException();
+        }
+
         Agent agent = agentType.createInstance(name, configurationBean.cloneAgentCenter());
+
         localAgents.put(agent.getAid(), agent);
         addRunningAgents(Collections.singletonList(agent.getAid()));
 

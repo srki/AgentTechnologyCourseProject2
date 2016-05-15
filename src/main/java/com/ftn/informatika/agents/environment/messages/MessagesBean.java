@@ -29,7 +29,7 @@ public class MessagesBean implements MessagesLocal, MessagesRemote {
     public void sendMessage(ACLMessage message) {
         sendJmsMessage(message);
         message.getReceivers().forEach(receiver -> {
-            if (!receiver.getHost().equals(configurationBean.getAgentCenter())) {
+            if (receiver != null && !configurationBean.getAgentCenter().equals(receiver.getHost())) {
                 new MessageReceiverRequester(receiver.getHost().getAddress()).receiveMessage(message);
             }
         });

@@ -2,16 +2,19 @@ package com.ftn.informatika.agents.web_client.service.web_socket;
 
 import com.ftn.informatika.agents.clustering.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.AgentsLocal;
+import com.ftn.informatika.agents.environment.exceptions.NameAlreadyExistsException;
 import com.ftn.informatika.agents.environment.messages.MessagesLocal;
 import com.ftn.informatika.agents.environment.model.ACLMessage;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.service.http.AgentsRequester;
+import com.ftn.informatika.agents.web_client.service.ErrorObject;
 import com.ftn.informatika.agents.web_client.service.web_socket.beans.SessionsDbLocal;
 import com.ftn.informatika.agents.web_client.service.web_socket.model.RunAgentRequest;
 import com.ftn.informatika.agents.web_client.service.web_socket.model.WebSocketPacket;
 import com.google.gson.Gson;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Singleton;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -96,8 +99,22 @@ public class ConsoleWebSocket {
 
     private void handleRunAgent(String data, Session session) throws IOException {
         RunAgentRequest request = new Gson().fromJson(data, RunAgentRequest.class);
-        AID aid = agentsBean.runAgent(request.getAgentType(), request.getName());
-        createAndSendPackage(session, WebSocketPacket.Type.RUN_AGENT, aid);
+        try {
+            AID aid = agentsBean.runAgent(request.getAgentType(), request.getName());
+            createAndSendPackage(session, WebSocketPacket.Type.RUN_AGENT, aid);
+        } catch (EJBException e) {
+            if (e.getCause() instanceof NameAlreadyExistsException) {
+                createAndSendPackage(session, WebSocketPacket.Type.RUN_AGENT,
+                        new ErrorObject("Name already exists!."), false);
+            } else {
+                e.printStackTrace();
+                createAndSendPackage(session, WebSocketPacket.Type.RUN_AGENT,
+                        new ErrorObject(e.getMessage()), false);
+            }
+        } catch (NameAlreadyExistsException e) {
+            createAndSendPackage(session, WebSocketPacket.Type.RUN_AGENT,
+                    new ErrorObject("Name already exists!."), false);
+        }
     }
 
     private void handleStopAgent(String data, Session session) throws IOException {

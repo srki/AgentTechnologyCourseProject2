@@ -77,6 +77,12 @@ textarea {
     margin-bottom: 20px;
 }
 
+@media (min-height: 800px) {
+    #Console .log {
+        flex: 0 0 300px;
+    }
+}
+
 #Console .header {
     flex-shrink: 0;
     background-color: #424D5F;

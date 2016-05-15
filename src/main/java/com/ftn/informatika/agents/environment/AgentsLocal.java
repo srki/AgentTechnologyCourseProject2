@@ -26,6 +26,8 @@ public interface AgentsLocal extends AgentsRemote {
 
     void removeClasses(String alias, List<AgentType> types);
 
+    void removeClasses(String alias);
+
     // Running agents
     Map<AID, Agent> getLocalRunningAgents();
 

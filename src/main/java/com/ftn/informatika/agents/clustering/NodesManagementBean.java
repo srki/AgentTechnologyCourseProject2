@@ -80,7 +80,7 @@ public class NodesManagementBean implements NodesManagementLocal {
     public void removeNode(String alias) {
         System.out.println(alias + " removed from " + configurationBean.getAlias());
         nodesDbBean.removeNode(alias);
-        agentsBean.removeClasses(alias, null);
+        agentsBean.removeClasses(alias);
         agentsBean.removeRunningAgentsFromNode(alias);
 
         if (configurationBean.isMaster()) {

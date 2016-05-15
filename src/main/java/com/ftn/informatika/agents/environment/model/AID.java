@@ -60,8 +60,7 @@ public class AID implements Serializable {
         AID aid = (AID) o;
 
         return name != null ? name.equals(aid.name) : aid.name == null
-                && (host != null ? host.equals(aid.host) : aid.host == null
-                && (type != null ? type.equals(aid.type) : aid.type == null));
+                && (host != null ? host.equals(aid.host) : aid.host == null);
 
     }
 
@@ -69,7 +68,6 @@ public class AID implements Serializable {
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (host != null ? host.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }
 

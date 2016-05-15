@@ -2,12 +2,15 @@ package com.ftn.informatika.agents.web_client.service.http;
 
 import com.ftn.informatika.agents.clustering.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.AgentsLocal;
+import com.ftn.informatika.agents.environment.exceptions.NameAlreadyExistsException;
 import com.ftn.informatika.agents.environment.model.AID;
 import com.ftn.informatika.agents.environment.model.AgentType;
 import com.ftn.informatika.agents.environment.service.http.AgentsRequester;
+import com.ftn.informatika.agents.web_client.service.ErrorObject;
 import com.ftn.informatika.agents.web_client.service.http.endpoint_interface.AgentsEndpointREST;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -35,7 +38,18 @@ public class AgentsREST implements AgentsEndpointREST {
 
     @Override
     public Object runAgent(AgentType type, String name) {
-        agentsBean.runAgent(type, name);
+        try {
+            agentsBean.runAgent(type, name);
+        } catch (EJBException e) {
+            if (e.getCause() instanceof NameAlreadyExistsException) {
+                return new ErrorObject("Name already exists.");
+            } else {
+                e.printStackTrace();
+                return new ErrorObject(e.getMessage());
+            }
+        } catch (NameAlreadyExistsException e) {
+            return new ErrorObject("Name already exists.");
+        }
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
