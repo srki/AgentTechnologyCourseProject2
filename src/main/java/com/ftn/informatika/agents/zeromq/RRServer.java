@@ -17,40 +17,31 @@ public class RRServer {
     {
         Context context = ZMQ.context(1);
 
-        // socket to talk to clients
+        //  Socket to talk to server
         Socket responder = context.socket(ZMQ.REP);
         responder.connect("tcp://localhost:5560");
 
-        System.out.println("launch and connect server");
+        while (!Thread.currentThread().isInterrupted()) {
+            //  Wait for next request from client
+            String string = responder.recvStr(0);
+            System.out.printf("Received request: [%s]\n", string);
 
-        while (!Thread.currentThread().isInterrupted())
-        {
-            // wait for next request from client
-            byte[] request = responder.recv(0);
-            String string = new String(request);
-            System.out.println("Received request: [" + string + "].");
-
-            
-            // do some 'work'
-            try
-            {
-                Thread.sleep(1);
-            }
-            catch (InterruptedException e)
-            {
+            //  Do some 'work'
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-
-            // send reply back to client
-            responder.send("World".getBytes(), 0);
-
+            //  Send reply back to client
+            responder.send("World");
         }
 
-        // clean up
+        //  We never get here but clean up anyhow
         responder.close();
         context.term();
 
+        }
+
     }
 
-}

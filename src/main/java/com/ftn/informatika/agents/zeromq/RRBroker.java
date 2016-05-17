@@ -2,8 +2,8 @@ package com.ftn.informatika.agents.zeromq;
 
 import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Context;
-import org.zeromq.ZMQ.Poller;
 import org.zeromq.ZMQ.Socket;
+import org.zeromq.ZMQ.Poller;
 
 /**
  * ZeroMQ Request-Reply broker.
@@ -14,47 +14,57 @@ public class RRBroker {
 
     public static void main(String[] args)
     {
+        //  Prepare our context and sockets
         Context context = ZMQ.context(1);
 
-        Socket fronted = context.socket(ZMQ.ROUTER);
-        Socket backend = context.socket(ZMQ.DEALER);
-        fronted.bind("tcp://*:5559");
+        Socket frontend = context.socket(ZMQ.ROUTER);
+        Socket backend  = context.socket(ZMQ.DEALER);
+        frontend.bind("tcp://*:5559");
         backend.bind("tcp://*:5560");
 
         System.out.println("launch and connect broker.");
 
-        // initialize poll set
-        Poller items = new Poller(2);
-        items.register(fronted, Poller.POLLIN);
+        //  Initialize poll set
+        Poller items = new Poller (2);
+        items.register(frontend, Poller.POLLIN);
         items.register(backend, Poller.POLLIN);
 
         boolean more = false;
         byte[] message;
 
-        // switch messages between sockets
-        while (!Thread.currentThread().isInterrupted())
-        {
+        //  Switch messages between sockets
+        while (!Thread.currentThread().isInterrupted()) {
+            //  poll and memorize multipart detection
             items.poll();
 
-            if (items.pollin(0))
-            {
-                while (true)
-                {
-                    //receive message
-                    message = fronted.recv(0);
-                    more = fronted.hasReceiveMore();
+            if (items.pollin(0)) {
+                while (true) {
+                    // receive message
+                    message = frontend.recv(0);
+                    more = frontend.hasReceiveMore();
 
-                    // broker it
+                    // Broker it
                     backend.send(message, more ? ZMQ.SNDMORE : 0);
-                    if (!more)
-                    {
+                    if(!more){
+                        break;
+                    }
+                }
+            }
+            if (items.pollin(1)) {
+                while (true) {
+                    // receive message
+                    message = backend.recv(0);
+                    more = backend.hasReceiveMore();
+                    // Broker it
+                    frontend.send(message,  more ? ZMQ.SNDMORE : 0);
+                    if(!more){
                         break;
                     }
                 }
             }
         }
-        // clean up
-        fronted.close();
+        //  We never get here but clean up anyhow
+        frontend.close();
         backend.close();
         context.term();
     }
