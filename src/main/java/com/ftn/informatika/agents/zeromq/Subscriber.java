@@ -23,6 +23,7 @@ public class Subscriber implements IAttachedRunnable {
         int count = 0;
         while (count < 5) {
             String string = subscriber.recvStr();
+            System.out.println("Subscriber read: " + string);
             if (string == null)
                 break; //Interrupted
             count++;
