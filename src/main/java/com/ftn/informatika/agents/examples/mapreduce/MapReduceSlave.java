@@ -29,14 +29,14 @@ public class MapReduceSlave extends Agent {
 
     @Override
     protected void handleRequest(ACLMessage message) {
-        String path = message.getContent();
+        String path = message.getContent().trim();
         getLogManager().info(aid.getName() + ": " + path);
 
         Map<Character, Integer> mapReduce = new HashMap<>();
         try {
             URL url;
             if (path.startsWith(HTTP)) {
-                url = new URL(path.trim());
+                url = new URL(path);
             } else {
                 url = AgentsReader.class.getResource("/" + path);
             }

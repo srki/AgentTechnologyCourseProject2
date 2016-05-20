@@ -83,9 +83,9 @@ public class MapReduceMaster extends Agent {
             int count = Integer.parseInt(splits[i].split(":")[1]);
 
             if (mapReduce.containsKey(c)) {
-                mapReduce.put(c, mapReduce.get(c) + 1);
+                mapReduce.put(c, mapReduce.get(c) + count);
             } else {
-                mapReduce.put(c, 1);
+                mapReduce.put(c, count);
             }
         }
     }

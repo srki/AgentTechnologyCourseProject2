@@ -21,6 +21,7 @@ import java.util.List;
  */
 @Stateless
 public class NodesManagementBean implements NodesManagementLocal {
+
     @EJB
     private NodesDbLocal nodesDbBean;
     @EJB
@@ -40,31 +41,28 @@ public class NodesManagementBean implements NodesManagementLocal {
 
             // Get classes from new node
             AgentCenter newAgentCenter = agentCenters.get(0);
-            List<AgentType> agentTypes = new AgentsRequester(newAgentCenter.getAddress()).getClasses();
+            List<AgentType> agentTypes = getAgentClasses(newAgentCenter.getAddress());
 
             // Send new classes to other nodes
-            try {
-                for (AgentCenter agentCenter : nodesDbBean.getAllNodes()) {
-                    if (configurationBean.getAlias().equals(agentCenter.getAlias())) {
-                        continue;
-                    }
+            for (AgentCenter agentCenter : nodesDbBean.getRemoteNodes()) {
+                try {
                     new NodesRequester(agentCenter.getAddress()).addNodes(Collections.singletonList(newAgentCenter));
                     new AgentsManagementRequester(agentCenter.getAddress()).addClasses(newAgentCenter, agentTypes);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
 
             agentClassesBean.addClasses(newAgentCenter.getAlias(), agentTypes);
             nodesDbBean.addNode(newAgentCenter);
 
-            // Deliver all nodes to the new node
-            new NodesRequester(newAgentCenter.getAddress()).addNodes(nodesDbBean.getAllNodes());
-
-            // Deliver all classes and running agents to the new node
-            AgentsManagementRequester requester = new AgentsManagementRequester(newAgentCenter.getAddress());
-            requester.addClasses(agentClassesBean.getAllClasses());
-            requester.addRunning(runningAgentsBean.getAllRunningAgents());
+            try {
+                sendNodesToNewNode(newAgentCenter);
+                sendClassesToNewNode(newAgentCenter);
+                sendRunningAgentsToNewNode(newAgentCenter);
+            } catch (Exception e) {
+                cleanUp(newAgentCenter.getAddress());
+            }
 
             System.out.println(newAgentCenter.getAlias() + " registered to " + configurationBean.getAlias());
         } else {
@@ -91,12 +89,59 @@ public class NodesManagementBean implements NodesManagementLocal {
         runningAgentsBean.removeRunningAgentsFromNode(alias);
 
         if (configurationBean.isMaster()) {
-            nodesDbBean.getAllNodes().forEach(node -> {
-                if (!configurationBean.getAgentCenter().equals(node)) {
-                    new NodesRequester(node.getAddress()).removeNode(alias);
-                }
-            });
+            nodesDbBean.getRemoteNodes().forEach(node -> new NodesRequester(node.getAddress()).removeNode(alias));
         }
-
     }
+
+    private List<AgentType> getAgentClasses(String address) {
+        try {
+            return new AgentsRequester(address).getClasses();
+        } catch (Exception e) {
+            System.err.println("Can not get classes from the new node. Error: " + e.getMessage() + " Sending again!");
+            return new AgentsRequester(address).getClasses();
+        }
+    }
+
+    private void sendNodesToNewNode(AgentCenter newAgentCenter) {
+        try {
+            new NodesRequester(newAgentCenter.getAddress()).addNodes(nodesDbBean.getAllNodes());
+        } catch (Exception e) {
+            System.err.println("Can not register nodes to the new node. Error: " + e.getMessage() + " Sending again!");
+            new NodesRequester(newAgentCenter.getAddress()).addNodes(nodesDbBean.getAllNodes());
+        }
+    }
+
+    private void sendClassesToNewNode(AgentCenter newAgentCenter) {
+        AgentsManagementRequester requester = new AgentsManagementRequester(newAgentCenter.getAddress());
+        try {
+            requester.addClasses(agentClassesBean.getAllClasses());
+        } catch (Exception e) {
+            System.err.println("Can not send classes to the new node. Error: " + e.getMessage() + " Sending again!");
+            requester.addClasses(agentClassesBean.getAllClasses());
+        }
+    }
+
+    private void sendRunningAgentsToNewNode(AgentCenter newAgentCenter) {
+        AgentsManagementRequester requester = new AgentsManagementRequester(newAgentCenter.getAddress());
+        try {
+            requester.addRunning(runningAgentsBean.getAllRunningAgents());
+        } catch (Exception e) {
+            System.err.println("Can not send running agents to the new node. Error: " + e.getMessage() + " Sending again!");
+            requester.addRunning(runningAgentsBean.getAllRunningAgents());
+        }
+    }
+
+    private void cleanUp(String alias) {
+        agentClassesBean.removeClasses(alias);
+        nodesDbBean.removeNode(alias);
+
+        for (AgentCenter agentCenter : nodesDbBean.getRemoteNodes()) {
+            try {
+                new NodesRequester(agentCenter.getAddress()).removeNode(alias);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

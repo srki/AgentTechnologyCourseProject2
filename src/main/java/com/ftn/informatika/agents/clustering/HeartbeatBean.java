@@ -5,7 +5,6 @@ import com.ftn.informatika.agents.clustering.startup.config.ConfigurationLocal;
 import com.ftn.informatika.agents.environment.model.AgentCenter;
 
 import javax.ejb.EJB;
-import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,7 +24,7 @@ public class HeartbeatBean {
 
     private Set<AgentCenter> preDestroy = new HashSet<>();
 
-    @Schedule(hour = "*", minute = "*", second = "*/15", info = "every 45th second")
+    //@Schedule(hour = "*", minute = "*", second = "*/15", info = "every 45th second")
     public void isAlive() {
         List<AgentCenter> destroy = new ArrayList<>();
 
